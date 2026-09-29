@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Portfólio de Graziela Romualdo, desenvolvedora full stack.">
+<title>Graziela Romualdo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..700,100;1,9..144,300..700,100&family=Nunito:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap">
+    <a class="logo" href="#top"><b>Graziela</b></a>
+    <nav aria-label="Seções">
+      <ul>
+        <li><a href="#sobre">sobre</a></li>
+        <li><a href="#stack">stack</a></li>
+        <li><a href="#trajetoria">trajetória</a></li>
+        <li><a href="#projetos">projetos</a></li>
+        <li><a href="#contato">contato</a></li>
+      </ul>
+    </nav>
+    <a class="btn primary" href="#contato">Contato</a>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero">
+    <canvas id="scene" aria-hidden="true"></canvas>
+    <div class="wrap hero-grid">
+      <div>
+        <p class="eyebrow">Portfólio · 2026</p>
+        <h1>Graziela<br><span class="last">Romualdo.</span></h1>
+        <p class="lead">Desenvolvedora <strong>Full-Stack</strong>. Construo produtos web de ponta a ponta, da interface ao banco de dados.</p>
+        <div class="ctas">
+          <a class="btn primary" href="#projetos">Ver projetos</a>
+          <a class="btn" href="#contato">Falar comigo</a>
+        </div>
+      </div>
+      <div class="stage">
+        <div class="tilt" id="tilt">
+          <div class="ring"></div>
+          <div class="photo"><img src="foto.webp" alt="Foto de Graziela Romualdo" width="768" height="1024"></div>
+          <div class="badge b1"><span class="dot"></span>aberta a projetos</div>
+          <div class="badge b2">&lt;<b>full stack</b> /&gt;</div>
+          <div class="code float" aria-label="Resumo em formato de código">
+            <div class="code-bar"><i></i><i></i><i></i><span>graziela.ts</span></div>
+<pre><span class="k">const</span> graziela = {
+  stack: [<span class="s">"React"</span>, <span class="s">"Node"</span>, <span class="s">"SQL"</span>],
+  empresa: <span class="s">"Netglobe"</span>,
+  status: <span class="s" id="typed">construindo</span><span class="cursor"></span>
+};</pre>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="sobre">
+    <div class="wrap">
+      <p class="sec-label">// sobre mim</p>
+      <h2>Do layout à API, cuido do produto inteiro.</h2>
+      <div class="about">
+        <div>
+          <p>Sou desenvolvedora full stack e trabalho nas duas pontas de uma aplicação: interfaces rápidas e acessíveis no front-end, APIs e modelagem de dados no back-end.</p>
+          <p>Gosto de código claro, de entender o problema antes de escrever a primeira linha e de entregar funcionalidades que chegam de fato ao usuário.</p>
+        </div>
+        <dl class="facts">
+          <div><dt>função</dt><dd>dev full stack</dd></div>
+          <div><dt>atual</dt><dd>Netglobe</dd></div>
+          <div><dt>local</dt><dd>Brasil</dd></div>
+          <div><dt>idiomas</dt><dd>português · inglês</dd></div>
+          <div><dt>status</dt><dd><span class="dot"></span>aberta a projetos</dd></div>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="stack">
+    <div class="wrap">
+      <p class="sec-label">// stack &amp; ferramentas</p>
+      <h2>Com o que eu trabalho</h2>
+      <div class="stack" id="stackList"></div>
+    </div>
+  </section>
+
+  <section class="block" id="trajetoria">
+    <div class="wrap">
+      <p class="sec-label">// trajetória</p>
+      <h2>Experiência</h2>
+      <ol class="timeline" id="jobs"></ol>
+    </div>
+  </section>
+
+  <section class="block" id="projetos">
+    <div class="wrap">
+      <p class="sec-label">// projetos</p>
+      <h2>Trabalhos selecionados</h2>
+      <div class="filters" id="filters" role="group" aria-label="Filtrar projetos"></div>
+      <div class="projects" id="projects"></div>
+    </div>
+  </section>
+
+  <section class="block" id="contato">
+    <div class="wrap contact">
+      <div>
+        <p class="sec-label">// contato</p>
+        <h2>Vamos construir algo juntos?</h2>
+        <p>Estou disponível para oportunidades, freelas e conversas sobre projetos. Mande um e-mail que eu respondo.</p>
+        <div class="mail">
+          <span id="email">graziela.lopes1@icloud.com</span>
+          <button class="btn" id="copyBtn" type="button">copiar</button>
+        </div>
+      </div>
+      <ul class="socials">
+        <li><a href="https://www.linkedin.com/" target="_blank" rel="noopener">LinkedIn <span>↗</span></a></li>
+        <li><a href="https://github.com/" target="_blank" rel="noopener">GitHub <span>↗</span></a></li>
+      </ul>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 Graziela Romualdo</span>
+    <span>feito com HTML, CSS &amp; JS</span>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
