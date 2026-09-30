@@ -112,7 +112,7 @@ function tilt(el, max, onMove) {
 }
 if (!reduced && finePointer) {
   const t = document.getElementById("tilt"), ph = t.querySelector(".photo");
-  tilt(t, 16, (x, y) => { ph.style.setProperty("--gx", (x + .5) * 100 + "%"); ph.style.setProperty("--gy", (y + .5) * 100 + "%"); });
+  tilt(t, 16, (x, y) => { if (!ph) return; ph.style.setProperty("--gx", (x + .5) * 100 + "%"); ph.style.setProperty("--gy", (y + .5) * 100 + "%"); });
   projEl.style.perspective = "900px";
   new MutationObserver(() => projEl.querySelectorAll(".proj").forEach(p => tilt(p, 8))).observe(projEl, { childList: true });
   projEl.querySelectorAll(".proj").forEach(p => tilt(p, 8));
@@ -136,13 +136,13 @@ if (!reduced && finePointer) {
   const orbMat = new THREE.MeshBasicMaterial();
 
   const shapes = [
-    [new THREE.IcosahedronGeometry(1.4, 0), matMain, [-6.2, 2.6, -2]],
-    [new THREE.BoxGeometry(1.5, 1.5, 1.5), matGlass, [-3.5, -2.8, -1]],
-    [new THREE.TorusGeometry(1, .34, 14, 36), matMain, [5.8, 3.2, -4]],
-    [new THREE.OctahedronGeometry(1.1, 0), matGlass, [7.4, -2.4, -3]],
-    [new THREE.IcosahedronGeometry(3.4, 1), matWire, [4.5, .3, -7]],
-    [new THREE.BoxGeometry(.8, .8, .8), matMain, [.8, 4.2, -5]],
-    [new THREE.TorusKnotGeometry(.7, .22, 80, 12), matGlass, [-1.2, -4.4, -4]],
+    [new THREE.IcosahedronGeometry(1.4, 0), matMain, [-7.2, 3, -3]],
+    [new THREE.BoxGeometry(1.5, 1.5, 1.5), matGlass, [-7.6, -3.6, -2]],
+    [new THREE.TorusGeometry(1, .34, 14, 36), matMain, [8.4, 4, -4]],
+    [new THREE.OctahedronGeometry(1.1, 0), matGlass, [8.6, -3.6, -3]],
+    [new THREE.IcosahedronGeometry(3.4, 1), matWire, [9, -.5, -11]],
+    [new THREE.BoxGeometry(.8, .8, .8), matMain, [-2.2, 5.4, -5]],
+    [new THREE.TorusKnotGeometry(.7, .22, 80, 12), matGlass, [1.4, -5.6, -4]],
   ].map(([g, m, p], i) => {
     const mesh = new THREE.Mesh(g, m);
     mesh.position.set(...p);
@@ -152,7 +152,7 @@ if (!reduced && finePointer) {
   });
 
   const orb = new THREE.Mesh(new THREE.SphereGeometry(.55, 32, 32), orbMat);
-  orb.position.set(2.6, 3.4, -2);
+  orb.position.set(1.2, 5, -3);
   sc.add(orb);
   const pl = new THREE.PointLight(0xffffff, 2.2, 30);
   pl.position.copy(orb.position);
@@ -193,7 +193,7 @@ if (!reduced && finePointer) {
       s.rotation.x = t * u.speed * .6; s.rotation.y = t * u.speed;
       s.position.y = u.base + Math.sin(t * .6 + u.phase) * .35;
     });
-    orb.position.y = 3.4 + Math.sin(t * .8) * .3; pl.position.copy(orb.position);
+    orb.position.y = 5 + Math.sin(t * .8) * .3; pl.position.copy(orb.position);
     cam.position.x += (mx * 2.2 - cam.position.x) * .04;
     cam.position.y += (-my * 1.6 - cam.position.y) * .04;
     cam.lookAt(0, 0, 0);

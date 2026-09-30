@@ -151,7 +151,7 @@ header.nav {
   position: relative;
   display: grid;
   grid-template-columns: 1.15fr .85fr;
-  gap: 48px;
+  gap: clamp(40px, 6vw, 80px);
   align-items: center;
 }
 
@@ -245,53 +245,41 @@ h1 .last {
 }
 
 
+/* área à direita do hero: selos e card de código em coluna, com espaço entre eles */
+.stage {
+  perspective: 1100px;
+  display: flex;
+  justify-content: center;
+  padding-block: 24px;
+}
+
 .tilt {
   position: relative;
-  width: min(360px, 100%);
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  width: min(400px, 100%);
+  padding: 32px 28px;
   transform-style: preserve-3d;
   transition: transform .25s ease-out;
   will-change: transform;
 }
 
-.photo {
-  position: relative;
-  aspect-ratio: 3 / 4;
-  max-width: 100%;
-  border-radius: 22px;
-  overflow: hidden;
-  border: 1px solid var(--line);
-  box-shadow: 0 40px 80px -30px rgba(0, 0, 0, .6), 0 0 0 8px var(--bg-2);
-  transform: translateZ(0);
-}
-
-.photo img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-
-.photo::after {
-  content: "";
+.ring {
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at var(--gx, 30%) var(--gy, 20%), rgba(255, 255, 255, .18), transparent 45%);
-  mix-blend-mode: soft-light;
+  border: 1px dashed var(--accent);
+  border-radius: 26px;
+  background: color-mix(in srgb, var(--bg) 55%, transparent);
+  backdrop-filter: blur(3px);
+  opacity: .9;
+  transform: translateZ(-40px);
   pointer-events: none;
 }
 
-.ring {
-  position: absolute;
-  inset: -18px;
-  border: 1px dashed var(--accent);
-  border-radius: 30px;
-  opacity: .45;
-  transform: translateZ(-60px);
-}
-
 .badge {
-  position: absolute;
-  display: flex;
+  position: relative;
+  display: inline-flex;
   align-items: center;
   gap: 8px;
   padding: 9px 13px;
@@ -304,15 +292,14 @@ h1 .last {
 }
 
 .badge.b1 {
-  top: 26px;
-  left: -34px;
-  transform: translateZ(70px);
+  align-self: flex-start;
+  transform: translateZ(50px);
 }
 
 .badge.b2 {
-  top: 44%;
-  right: -40px;
-  transform: translateZ(90px);
+  align-self: flex-end;
+  order: 3;
+  transform: translateZ(60px);
 }
 
 .badge.b2 b {
@@ -320,35 +307,23 @@ h1 .last {
   font-weight: 500;
 }
 
-@media (max-width: 480px) {
-  .badge.b1 {
-    left: -8px;
-  }
-
-  .badge.b2 {
-    right: -8px;
-  }
-}
-
 .code.float {
-  position: absolute;
-  left: -48px;
-  bottom: -34px;
-  width: 290px;
-  max-width: calc(100% + 30px);
-  transform: translateZ(120px);
+  position: relative;
+  order: 2;
+  width: 100%;
+  transform: translateZ(80px);
 }
 
 .code.float pre {
-  padding: 14px 16px;
-  font-size: .74rem;
-  line-height: 1.7;
+  padding: 16px 18px;
+  font-size: .8rem;
+  line-height: 1.75;
 }
 
 @media (max-width: 480px) {
-  .code.float {
-    left: -8px;
-    width: calc(100% + 16px);
+  .tilt {
+    padding: 24px 18px;
+    gap: 18px;
   }
 }
 
