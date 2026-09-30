@@ -124,9 +124,74 @@ header.nav {
   opacity: .7;
 }
 
+/* botão ☰: só aparece no celular */
+.menu-btn {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 42px;
+  height: 42px;
+  padding: 0 10px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--bg-2);
+  cursor: pointer;
+}
+
+.menu-btn span {
+  display: block;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--fg);
+  transition: transform .2s, opacity .2s;
+}
+
+.menu-btn[aria-expanded="true"] span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.menu-btn[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+.menu-btn[aria-expanded="true"] span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
 @media (max-width: 760px) {
+  .nav .wrap {
+    position: relative;
+  }
+
+  .menu-btn {
+    display: flex;
+    order: 3;
+  }
+
+  /* o botão "Contato" do topo sai no celular: ele já está no menu */
+  .nav .wrap > .btn.primary {
+    display: none;
+  }
+
   .nav ul {
     display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    gap: 0;
+    padding: 8px 20px 16px;
+    background: var(--bg);
+    border-bottom: 1px solid var(--line);
+    font-size: 1rem;
+  }
+
+  .nav ul.open {
+    display: flex;
+  }
+
+  .nav ul a {
+    display: block;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .nav ul li:last-child a {
+    border-bottom: 0;
   }
 }
 
@@ -447,7 +512,7 @@ h3 {
 
 .facts div {
   display: grid;
-  grid-template-columns: 90px 1fr;
+  grid-template-columns: 110px 1fr;
   gap: 12px;
   padding: 12px 16px;
   border-bottom: 1px solid var(--line);
@@ -479,7 +544,7 @@ h3 {
 /* stack */
 .stack {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(230px, 100%), 1fr));
   gap: 16px;
 }
 
@@ -590,7 +655,7 @@ h3 {
 
 .projects {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(300px, 100%), 1fr));
   gap: 18px;
 }
 
@@ -736,4 +801,133 @@ footer .wrap {
   flex-wrap: wrap;
   justify-content: space-between;
   gap: 10px;
+}
+
+/* ===== responsivo =====
+   computador: acima de 1024px (layout padrão acima)
+   tablet:     de 761px a 1024px
+   celular:    até 760px */
+.hero-grid > *,
+.about > *,
+.contact > * {
+  min-width: 0;
+}
+
+/* tablet */
+@media (max-width: 1024px) {
+  .hero {
+    padding-block: 56px 48px;
+  }
+
+  section.block {
+    padding-block: 60px;
+  }
+
+  .about,
+  .contact {
+    gap: 32px;
+  }
+
+  .job {
+    grid-template-columns: 130px 1fr;
+    gap: 20px;
+  }
+}
+
+/* tablet em pé e celular: o hero vira uma coluna */
+@media (max-width: 900px) {
+  .hero-grid {
+    gap: 40px;
+  }
+
+  .lead {
+    max-width: 46ch;
+  }
+
+  .stage {
+    justify-content: flex-start;
+    padding-block: 0;
+  }
+
+  .tilt {
+    width: min(460px, 100%);
+  }
+}
+
+/* celular */
+@media (max-width: 760px) {
+  .wrap {
+    padding-inline: 16px;
+  }
+
+  .hero {
+    padding-block: 40px 36px;
+  }
+
+  section.block {
+    padding-block: 48px;
+  }
+
+  h2 {
+    font-size: clamp(1.6rem, 7vw, 2rem);
+    margin-bottom: 20px;
+  }
+
+  .lead {
+    font-size: 1.05rem;
+    margin-bottom: 24px;
+  }
+
+  .ctas .btn {
+    flex: 1 1 140px;
+    text-align: center;
+  }
+
+  .stage {
+    justify-content: center;
+  }
+
+  .job {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+
+  .projects {
+    gap: 14px;
+  }
+
+  .proj {
+    padding: 18px;
+  }
+
+  .mail {
+    font-size: .85rem;
+  }
+
+  .mail .btn {
+    flex: 1 1 100%;
+    text-align: center;
+  }
+
+  footer .wrap {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+/* celular pequeno */
+@media (max-width: 400px) {
+  .facts div {
+    grid-template-columns: 1fr;
+    gap: 2px;
+  }
+
+  .badge {
+    white-space: normal;
+  }
+
+  .code.float pre {
+    font-size: .72rem;
+    padding: 14px;
+  }
 }

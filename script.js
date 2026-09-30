@@ -32,7 +32,13 @@ const PROJECTS = [
     nome: "Instituto Cornélio", categoria: "front-end", exemplo: false,
     descricao: "Landing page responsiva para o Instituto Cornélio.",
     impacto: "",
-    tags: ["HTML", "Tailwind CSS", "JavaScript"], preview: "#", github: "#",
+    tags: ["HTML", "Tailwind CSS", "JavaScript"], preview: "", github: "",
+  },
+  {
+    nome: "Site Refrigerantes", categoria: "front-end", exemplo: false,
+    descricao: "Vitrine de refrigerantes com três sabores (abacate, laranja e morango) em um carrossel com botões de avançar e voltar, que troca produto e visual a cada tela.",
+    impacto: "",
+    tags: ["HTML", "CSS", "JavaScript", "DOM"], preview: "", github: "https://github.com/grazielagit1/site-refrigerantes",
   },
 ];
 /* ==== fim da área editável ==== */
@@ -64,7 +70,7 @@ function renderProjects(cat) {
       <span class="tag">${esc(p.categoria)}</span>
       <h3>${esc(p.nome)}${p.exemplo ? '<span class="example">exemplo</span>' : ""}</h3>
       <p>${esc(p.descricao)}</p>
-      <p class="impact">${esc(p.impacto)}</p>
+      ${p.impacto ? `<p class="impact">${esc(p.impacto)}</p>` : ""}
       ${chips(p.tags)}
       <div class="links">
         ${p.preview ? `<a href="${esc(p.preview)}" target="_blank" rel="noopener">Preview ↗</a>` : ""}
@@ -96,6 +102,19 @@ document.getElementById("copyBtn").addEventListener("click", async e => {
   catch { const r = document.createRange(); r.selectNodeContents(document.getElementById("email")); getSelection().removeAllRanges(); getSelection().addRange(r); e.target.textContent = "selecionado"; }
   setTimeout(() => (e.target.textContent = "copiar"), 1800);
 });
+
+// menu do celular: abre e fecha a lista de seções
+const menuBtn = document.getElementById("menuBtn");
+const menu = document.getElementById("menu");
+function setMenu(open) {
+  menu.classList.toggle("open", open);
+  menuBtn.setAttribute("aria-expanded", open);
+  menuBtn.setAttribute("aria-label", open ? "Fechar menu" : "Abrir menu");
+}
+menuBtn.addEventListener("click", () => setMenu(!menu.classList.contains("open")));
+menu.addEventListener("click", e => { if (e.target.closest("a")) setMenu(false); });
+addEventListener("keydown", e => { if (e.key === "Escape") setMenu(false); });
+matchMedia("(min-width: 761px)").addEventListener("change", e => { if (e.matches) setMenu(false); });
 
 const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
 const finePointer = matchMedia("(pointer: fine)").matches;
