@@ -244,13 +244,6 @@ h1 .last {
   z-index: 1;
 }
 
-/* foto com tilt 3D */
-.stage {
-  perspective: 1100px;
-  display: flex;
-  justify-content: center;
-  padding: 10px 0 40px;
-}
 
 .tilt {
   position: relative;
