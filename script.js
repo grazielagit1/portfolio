@@ -17,19 +17,19 @@ const JOBS = [
 
 const PROJECTS = [
   {
-    nome: "Loja de Jogos", categoria: "full stack", exemplo: true,
+    nome: "Loja de Jogos", categoria: "full stack", exemplo: false,
     descricao: "Loja de jogos para computador (como a Steam), com login, cadastro, painel do vendedor, compras e tela de análises, ligada a um banco MySQL.",
     impacto: "",
-    tags: ["Java", "Swing", "DAO", "MySQL"], github: "#https://github.com/grazielagit1/APS4",
+    tags: ["Java", "Swing", "DAO", "MySQL"], github: "https://github.com/grazielagit1/APS4",
   },
   {
-    nome: "Analisador de Gastos", categoria: "back-end", exemplo: true,
+    nome: "Analisador de Gastos", categoria: "back-end", exemplo: false,
     descricao: "Lê extratos em CSV ou PDF do seu banco, separa os gastos por categoria e gera uma planilha Excel com gráficos.",
     impacto: "",
-    tags: ["Python", "Pypdf", "Openpyxl", "Regex"], github: "#https://github.com/grazielagit1/analisador-de-gastos",
+    tags: ["Python", "Pypdf", "Openpyxl", "Regex"], github: "https://github.com/grazielagit1/analisador-de-gastos",
   },
   {
-    nome: "Instituto Cornélio", categoria: "front-end", exemplo: true,
+    nome: "Instituto Cornélio", categoria: "front-end", exemplo: false,
     descricao: "Landing page responsiva para o Instituto Cornélio.",
     impacto: "",
     tags: ["HTML", "Tailwind CSS", "JavaScript"], preview: "#", github: "#",
