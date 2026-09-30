@@ -717,6 +717,10 @@ h3 {
   color: var(--accent);
 }
 
+.proj .private {
+  color: var(--muted);
+}
+
 .example {
   font: .7rem var(--f-mono);
   color: var(--muted);

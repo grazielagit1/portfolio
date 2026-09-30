@@ -17,6 +17,12 @@ const JOBS = [
 
 const PROJECTS = [
   {
+    nome: "Room Agent AI", categoria: "IA & automação", exemplo: false, privado: true,
+    descricao: "Inteligência operacional para salas Microsoft Teams Rooms: recebe os alertas do Teams Rooms Pro, registra incidentes, calcula a saúde de cada equipamento e recomenda ações por prioridade e risco, com foco em salas VIP.",
+    impacto: "Diagnóstico calculado pelo próprio sistema; a IA só redige os relatórios. Nada é executado sem a decisão do técnico.",
+    tags: ["Python", "FastAPI", "Mistral AI", "SQLite", "Azure App Service", "Microsoft Graph", "Webhooks"], preview: "", github: "",
+  },
+  {
     nome: "Loja de Jogos", categoria: "full stack", exemplo: false,
     descricao: "Loja de jogos para computador (como a Steam), com login, cadastro, painel do vendedor, compras e tela de análises, ligada a um banco MySQL.",
     impacto: "",
@@ -32,13 +38,19 @@ const PROJECTS = [
     nome: "Instituto Cornélio", categoria: "front-end", exemplo: false,
     descricao: "Landing page responsiva para o Instituto Cornélio.",
     impacto: "",
-    tags: ["HTML", "Tailwind CSS", "JavaScript"], preview: "", github: "",
+    tags: ["HTML", "Tailwind CSS", "JavaScript"], preview: "https://instituto-cornelio.vercel.app/", github: "",
+  },
+  {
+    nome: "Barbearia Los Santos", categoria: "front-end", exemplo: false,
+    descricao: "Site para uma barbearia 24 horas em Valinhos, com apresentação dos serviços, combo, endereço com mapa, avaliações de clientes e agendamento direto pelo WhatsApp.",
+    impacto: "",
+    tags: ["HTML", "CSS", "JavaScript", "Responsivo"], preview: "https://barbearia-los-santos-iota.vercel.app/", github: "",
   },
   {
     nome: "Site Refrigerantes", categoria: "front-end", exemplo: false,
     descricao: "Vitrine de refrigerantes com três sabores (abacate, laranja e morango) em um carrossel com botões de avançar e voltar, que troca produto e visual a cada tela.",
     impacto: "",
-    tags: ["HTML", "CSS", "JavaScript", "DOM"], preview: "", github: "https://github.com/grazielagit1/site-refrigerantes",
+    tags: ["HTML", "CSS", "JavaScript", "DOM"], preview: "https://refrigerantes-lovat.vercel.app/", github: "https://github.com/grazielagit1/site-refrigerantes",
   },
 ];
 /* ==== fim da área editável ==== */
@@ -75,6 +87,7 @@ function renderProjects(cat) {
       <div class="links">
         ${p.preview ? `<a href="${esc(p.preview)}" target="_blank" rel="noopener">Preview ↗</a>` : ""}
         ${p.github ? `<a href="${esc(p.github)}" target="_blank" rel="noopener">GitHub ↗</a>` : ""}
+        ${p.privado ? `<span class="private">🔒 repositório privado</span>` : ""}
       </div>
     </article>`).join("");
 }
