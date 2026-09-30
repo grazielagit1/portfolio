@@ -1,37 +1,37 @@
 /* ==== EDITE AQUI: todo o conteúdo do portfólio ==== */
 const STACK = [
-  { grupo: "front-end", itens: ["JavaScript", "TypeScript", "React", "Next.js", "HTML5", "CSS3", "Tailwind CSS"] },
-  { grupo: "back-end", itens: ["Node.js", "Express", "APIs REST", "Autenticação JWT"] },
-  { grupo: "dados", itens: ["PostgreSQL", "MySQL", "MongoDB", "Prisma"] },
-  { grupo: "ferramentas", itens: ["Git / GitHub", "Docker", "CI/CD", "Scrum / Kanban", "Figma"] },
+  { grupo: "Front-end", itens: ["JavaScript (Three.js)", "HTML5", "CSS3", "Tailwind CSS"] },
+  { grupo: "Back-end", itens: ["Python (pypdf, openpyxl, regex)", "Java", "APIs REST"] },
+  { grupo: "Dados", itens: ["PostgreSQL", "MySQL", "MongoDB", "DAO"] },
+  { grupo: "Ferramentas", itens: ["Git / GitHub", "Claude", "ChatGPT", "Scrum / Kanban", "Figma"] },
 ];
 
 const JOBS = [
   {
-    quando: "atual", atual: true,
-    cargo: "Desenvolvedora Full Stack", empresa: "Netglobe",
-    descricao: "Desenvolvimento e manutenção de aplicações web, do front-end às APIs e integrações.",
-    tags: ["React", "Node.js", "SQL"],
+    quando: "Atual", atual: true,
+    cargo: "Estágio em Pesquisa & Desenvolvimento", empresa: "Netglobe",
+    descricao: "Pesquisa e desenvolvimento de soluções de software, incluindo análise de dados, automação de processos e integração de sistemas.",
+    tags: ["Full Stack", "API REST", "Microsoft Azure"],
   },
 ];
 
 const PROJECTS = [
   {
-    nome: "Painel de gestão", categoria: "full stack", exemplo: true,
-    descricao: "Dashboard com autenticação, CRUD completo e relatórios, com API própria e banco relacional.",
-    impacto: "Substitua pelo resultado real: tempo economizado, usuários atendidos, etc.",
-    tags: ["React", "Node.js", "PostgreSQL"], preview: "#", github: "#",
+    nome: "Biblioteca de Jogos", categoria: "full stack", exemplo: true,
+    descricao: "Loja de jogos para computador, com login, cadastro, painel do vendedor, compras e tela de análises, ligada a um banco MySQL.",
+    impacto: "",
+    tags: ["Java", "Swing", "DAO", "MySQL"], github: "#https://github.com/grazielagit1/APS4",
   },
   {
-    nome: "API REST", categoria: "back-end", exemplo: true,
-    descricao: "API com rotas documentadas, validação de dados, autenticação JWT e testes automatizados.",
-    impacto: "Descreva o desafio técnico que você resolveu.",
-    tags: ["Node.js", "Express", "JWT"], github: "#",
+    nome: "Analisador de Gastos", categoria: "back-end", exemplo: true,
+    descricao: "Lê extratos em CSV ou PDF do seu banco, separa os gastos por categoria e gera uma planilha Excel com gráficos.",
+    impacto: "",
+    tags: ["Python", "Pypdf", "Openpyxl", "Regex"], github: "#https://github.com/grazielagit1/analisador-de-gastos",
   },
   {
-    nome: "Landing page", categoria: "front-end", exemplo: true,
-    descricao: "Página responsiva e rápida, com foco em conversão e acessibilidade.",
-    impacto: "Conte o que aprendeu ou o resultado obtido.",
+    nome: "Instituto Cornélio", categoria: "front-end", exemplo: true,
+    descricao: "Landing page responsiva para o Instituto Cornélio.",
+    impacto: "",
     tags: ["HTML", "Tailwind CSS", "JavaScript"], preview: "#", github: "#",
   },
 ];
