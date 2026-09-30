@@ -19,8 +19,14 @@ const PROJECTS = [
   {
     nome: "Room Agent AI", categoria: "IA & automação", exemplo: false, privado: true,
     descricao: "Inteligência operacional para salas Microsoft Teams Rooms: recebe os alertas do Teams Rooms Pro, registra incidentes, calcula a saúde de cada equipamento e recomenda ações por prioridade e risco, com foco em salas VIP.",
-    impacto: "Diagnóstico calculado pelo próprio sistema; a IA só redige os relatórios. Nada é executado sem a decisão do técnico.",
+    impacto: "",
     tags: ["Python", "FastAPI", "Mistral AI", "SQLite", "Azure App Service", "Microsoft Graph", "Webhooks"], preview: "", github: "",
+  },
+  {
+    nome: "Cobrança Automática", categoria: "IA & automação", exemplo: false, privado: true,
+    descricao: "Automação da cobrança de títulos em aberto: monitora o ERP todos os dias, aplica uma régua de 15 estágios e envia cada e-mail só depois de aprovado no Teams, com checagem de pagamento no momento do envio. Reduziu o tempo entre aprovação e envio de até 24 horas para poucos minutos.",
+    impacto: "",
+    tags: ["Python", "Azure Functions", "API OMIE", "Microsoft Teams", "SharePoint", "Microsoft Graph"], preview: "", github: "",
   },
   {
     nome: "Loja de Jogos", categoria: "full stack", exemplo: false,
