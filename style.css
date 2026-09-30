@@ -119,7 +119,7 @@ header.nav {
 }
 
 .nav ul a::before {
-  content: "./";
+  content: ".";
   color: var(--accent);
   opacity: .7;
 }
