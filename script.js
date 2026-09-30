@@ -17,8 +17,8 @@ const JOBS = [
 
 const PROJECTS = [
   {
-    nome: "Biblioteca de Jogos", categoria: "full stack", exemplo: true,
-    descricao: "Loja de jogos para computador, com login, cadastro, painel do vendedor, compras e tela de análises, ligada a um banco MySQL.",
+    nome: "Loja de Jogos", categoria: "full stack", exemplo: true,
+    descricao: "Loja de jogos para computador (como a Steam), com login, cadastro, painel do vendedor, compras e tela de análises, ligada a um banco MySQL.",
     impacto: "",
     tags: ["Java", "Swing", "DAO", "MySQL"], github: "#https://github.com/grazielagit1/APS4",
   },
