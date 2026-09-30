@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- fundo vinho, para o gato preto aparecer em abas claras e escuras -->
+  <rect width="64" height="64" rx="14" fill="#7d1d38"/>
+  <!-- orelhas -->
+  <path d="M12 34 L15 8 L31 22 Z" fill="#0b0809"/>
+  <path d="M52 34 L49 8 L33 22 Z" fill="#0b0809"/>
+  <!-- parte de dentro das orelhas -->
+  <path d="M16.5 25 L18 14 L25 20.5 Z" fill="#d4607f"/>
+  <path d="M47.5 25 L46 14 L39 20.5 Z" fill="#d4607f"/>
+  <!-- cabeça -->
+  <ellipse cx="32" cy="38" rx="21" ry="18" fill="#0b0809"/>
+  <!-- olhos -->
+  <ellipse cx="23.5" cy="36" rx="5" ry="5.5" fill="#f5c84c"/>
+  <ellipse cx="40.5" cy="36" rx="5" ry="5.5" fill="#f5c84c"/>
+  <ellipse cx="23.5" cy="36" rx="1.6" ry="4.2" fill="#0b0809"/>
+  <ellipse cx="40.5" cy="36" rx="1.6" ry="4.2" fill="#0b0809"/>
+  <!-- focinho -->
+  <path d="M29.5 44 L34.5 44 L32 47 Z" fill="#d4607f"/>
+</svg>
