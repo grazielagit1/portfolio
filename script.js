@@ -50,7 +50,7 @@ const PROJECTS = [
     nome: "Barbearia Los Santos", categoria: "front-end", exemplo: false,
     descricao: "Site para uma barbearia 24 horas em Valinhos, com apresentação dos serviços, combo, endereço com mapa, avaliações de clientes e agendamento direto pelo WhatsApp.",
     impacto: "",
-    tags: ["HTML", "CSS", "JavaScript", "Responsivo"], preview: "https://barbearia-los-santos-iota.vercel.app/", github: "",
+    tags: ["HTML", "CSS", "JavaScript", "Responsivo"], preview: "https://barbearia-los-santos-three.vercel.app/", github: "",
   },
   {
     nome: "Site Refrigerantes", categoria: "front-end", exemplo: false,
