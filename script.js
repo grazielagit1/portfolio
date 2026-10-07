@@ -150,6 +150,47 @@ projEl.addEventListener("click", e => {
   track.scrollTo({ left: alvo * track.clientWidth });
   markDot(track, alvo);
 });
+// visualização ampliada: clicar numa imagem da galeria abre ela em tela cheia, no tamanho real
+const lightbox = document.createElement("dialog");
+lightbox.className = "lightbox";
+lightbox.setAttribute("aria-label", "Imagem ampliada");
+lightbox.innerHTML = `
+  <figure>
+    <img alt="">
+    <figcaption><span class="lb-title"></span><span class="lb-count"></span></figcaption>
+  </figure>
+  <button class="lb-btn lb-close" type="button" aria-label="Fechar"></button>
+  <button class="lb-btn lb-prev gal-btn prev" type="button" aria-label="Imagem anterior"></button>
+  <button class="lb-btn lb-next gal-btn next" type="button" aria-label="Próxima imagem"></button>`;
+document.body.append(lightbox);
+let lbFotos = [], lbAtual = 0, lbNome = "";
+function lbMostrar(i) {
+  lbAtual = (i + lbFotos.length) % lbFotos.length;
+  const img = lightbox.querySelector("img");
+  img.src = lbFotos[lbAtual];
+  img.alt = `${lbNome}: imagem ${lbAtual + 1} de ${lbFotos.length}`;
+  lightbox.querySelector(".lb-title").textContent = lbNome;
+  lightbox.querySelector(".lb-count").textContent = `${lbAtual + 1} / ${lbFotos.length}`;
+}
+projEl.addEventListener("click", e => {
+  const img = e.target.closest(".gal-track img");
+  if (!img) return;
+  const track = img.parentElement;
+  lbFotos = [...track.children].map(i => i.getAttribute("src"));
+  lbNome = img.closest(".proj").querySelector("h3").textContent;
+  lbMostrar([...track.children].indexOf(img));
+  lightbox.showModal();
+});
+lightbox.addEventListener("click", e => {
+  if (e.target.closest(".lb-prev")) lbMostrar(lbAtual - 1);
+  else if (e.target.closest(".lb-next")) lbMostrar(lbAtual + 1);
+  else if (e.target.closest(".lb-close") || e.target === lightbox) lightbox.close(); // clicar fora da imagem também fecha
+});
+lightbox.addEventListener("keydown", e => {
+  if (e.key === "ArrowLeft") lbMostrar(lbAtual - 1);
+  if (e.key === "ArrowRight") lbMostrar(lbAtual + 1);
+});
+
 function markDot(track, atual) {
   track.closest(".gallery").querySelectorAll(".gal-dot").forEach((d, i) => d.toggleAttribute("aria-current", i === atual));
 }
@@ -245,8 +286,8 @@ if (!reduced && finePointer) {
   const t = document.getElementById("tilt"), ph = t.querySelector(".photo");
   tilt(t, 16, (x, y) => { if (!ph) return; ph.style.setProperty("--gx", (x + .5) * 100 + "%"); ph.style.setProperty("--gy", (y + .5) * 100 + "%"); });
   projEl.style.perspective = "900px";
-  new MutationObserver(() => projEl.querySelectorAll(".proj").forEach(p => tilt(p, 8))).observe(projEl, { childList: true });
-  projEl.querySelectorAll(".proj").forEach(p => tilt(p, 8));
+  new MutationObserver(() => projEl.querySelectorAll(".proj:not(.has-media)").forEach(p => tilt(p, 8))).observe(projEl, { childList: true });
+  projEl.querySelectorAll(".proj:not(.has-media)").forEach(p => tilt(p, 8));
 }
 
 // cena 3D do hero

@@ -821,6 +821,116 @@ h3 {
   }
 }
 
+/* na galeria: sem o degradê por cima (deixa os prints nítidos) e cursor de lupa para ampliar */
+.gallery::after {
+  display: none;
+}
+
+.gallery .gal-track img {
+  cursor: zoom-in;
+}
+
+/* visualização ampliada (abre ao clicar numa imagem da galeria) */
+.lightbox {
+  width: min(1280px, 100vw - 32px);
+  max-width: none;
+  max-height: calc(100vh - 32px);
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--bg-2);
+  color: var(--fg);
+  overflow: visible;
+}
+
+.lightbox::backdrop {
+  background: rgba(5, 3, 4, .85);
+  backdrop-filter: blur(4px);
+}
+
+.lightbox figure {
+  margin: 0;
+}
+
+.lightbox img {
+  display: block;
+  width: 100%;
+  max-height: calc(100vh - 90px);
+  object-fit: contain;
+  border-radius: 14px 14px 0 0;
+  background: var(--bg);
+}
+
+.lightbox figcaption {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 12px 16px;
+  font: .8rem var(--f-mono);
+  color: var(--muted);
+}
+
+.lightbox .lb-title {
+  color: var(--fg);
+}
+
+.lightbox .gal-btn {
+  opacity: 1;
+  width: 44px;
+  height: 44px;
+  margin-top: -22px;
+}
+
+.lightbox .lb-prev { left: -22px; }
+.lightbox .lb-next { right: -22px; }
+
+@media (max-width: 760px) {
+  .lightbox .lb-prev { left: 8px; }
+  .lightbox .lb-next { right: 8px; }
+}
+
+/* botão fechar: um "X" feito com duas barras */
+.lb-close {
+  position: absolute;
+  top: -14px;
+  right: -14px;
+  z-index: 2;
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: var(--bg-2);
+  cursor: pointer;
+}
+
+.lb-close::before,
+.lb-close::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  width: 14px;
+  height: 2px;
+  margin: auto;
+  background: var(--fg);
+  transform: rotate(45deg);
+}
+
+.lb-close::after {
+  transform: rotate(-45deg);
+}
+
+.lb-close:hover {
+  background: var(--wine);
+  border-color: var(--accent);
+}
+
+@media (max-width: 760px) {
+  .lb-close {
+    top: 8px;
+    right: 8px;
+  }
+}
+
 /* botão de play/pause sobre o vídeo */
 .proj-media:has(video) {
   cursor: pointer;
