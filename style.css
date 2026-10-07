@@ -725,10 +725,11 @@ h3 {
   display: none;
 }
 
-.gallery .gal-track img {
+.gallery .gal-track img,
+.proj:hover .gallery .gal-track img {
   flex: 0 0 100%;
   scroll-snap-align: start;
-  transform: none;
+  transform: none; /* sem o zoom do hover, que faria as imagens se sobreporem */
 }
 
 /* setas: aparecem ao passar o mouse sobre a galeria */
