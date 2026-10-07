@@ -1267,3 +1267,133 @@ footer .wrap {
     padding: 14px;
   }
 }
+
+/* ===== abertura 3D (estrela de pontos) =====
+   A seção é bem alta (3 telas); dentro dela, .intro-sticky fica "presa" na tela enquanto
+   a pessoa rola. Assim a rolagem vira o controle da animação. O JS escreve --p (0 a 1). */
+.intro {
+  --p: 0;
+  position: relative;
+  height: 320vh;
+  border-bottom: 1px solid var(--line);
+}
+
+.intro.static {
+  height: 100vh;
+  --p: 1;
+}
+
+.intro-sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  height: 100svh;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+}
+
+#star {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* brilho vinho atrás da estrela: cresce conforme ela se completa */
+.intro-glow {
+  position: absolute;
+  width: min(90vmin, 900px);
+  aspect-ratio: 1;
+  max-width: 100%;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--glow), transparent 62%);
+  opacity: calc(.15 + var(--p) * .85);
+  transform: scale(calc(.6 + var(--p) * .5));
+  pointer-events: none;
+}
+
+/* frase final: aparece só no último trecho da rolagem */
+.intro-text {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: clamp(32px, 9vh, 90px);
+  padding-inline: 20px;
+  text-align: center;
+  opacity: clamp(0, (var(--p) - .78) * 5, 1);
+  transform: translateY(calc((1 - clamp(0, (var(--p) - .78) * 5, 1)) * 24px));
+  pointer-events: none;
+}
+
+.intro-kicker {
+  margin: 0 0 10px;
+  font: .78rem var(--f-mono);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.intro-phrase {
+  margin: 0;
+  font: 400 clamp(1.7rem, 4.6vw, 3.2rem)/1.1 var(--f-display);
+  font-variation-settings: "SOFT" 100;
+  letter-spacing: -.01em;
+  text-wrap: balance;
+}
+
+.intro-phrase em {
+  color: var(--accent);
+}
+
+/* indicador "role para revelar": some assim que a pessoa começa a rolar */
+.scroll-hint {
+  position: absolute;
+  bottom: 28px;
+  left: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  font: .72rem var(--f-mono);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  opacity: clamp(0, 1 - var(--p) * 8, 1);
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+.mouse {
+  width: 22px;
+  height: 34px;
+  border: 1.5px solid var(--muted);
+  border-radius: 12px;
+  display: flex;
+  justify-content: center;
+  padding-top: 6px;
+}
+
+.wheel {
+  width: 3px;
+  height: 7px;
+  border-radius: 2px;
+  background: var(--accent);
+  animation: wheel 1.6s ease-in-out infinite;
+}
+
+@keyframes wheel {
+  0% { transform: translateY(0); opacity: 1; }
+  70% { transform: translateY(9px); opacity: 0; }
+  100% { transform: translateY(0); opacity: 0; }
+}
+
+.intro.static .scroll-hint {
+  display: none;
+}
+
+@media (max-width: 760px) {
+  .intro {
+    height: 260vh;
+  }
+}

@@ -35,6 +35,22 @@
 </header>
 
 <main id="top">
+  <!-- abertura 3D: a estrela de pontos se forma conforme a pessoa rola a página (star.js) -->
+  <section class="intro" id="intro" aria-label="Apresentação">
+    <div class="intro-sticky">
+      <div class="intro-glow" aria-hidden="true"></div>
+      <canvas id="star" aria-hidden="true"></canvas>
+      <div class="intro-text">
+        <p class="intro-kicker">Graziela Romualdo · Desenvolvedora Full Stack</p>
+        <p class="intro-phrase">Transformando perguntas<br>em <em>possibilidades.</em></p>
+      </div>
+      <div class="scroll-hint" aria-hidden="true">
+        <span class="mouse"><span class="wheel"></span></span>
+        role para revelar
+      </div>
+    </div>
+  </section>
+
   <section class="hero">
     <canvas id="scene" aria-hidden="true"></canvas>
     <div class="wrap hero-grid">
@@ -140,5 +156,6 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script src="script.js"></script>
+<script src="star.js"></script>
 </body>
 </html>
