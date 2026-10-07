@@ -2,8 +2,8 @@
 const STACK = [
   { grupo: "Front-end", itens: ["JavaScript (Three.js)", "HTML5", "CSS3", "Tailwind CSS"] },
   { grupo: "Back-end", itens: ["Python (pypdf, openpyxl, regex)", "Java", "APIs REST"] },
-  { grupo: "Dados", itens: ["PostgreSQL", "MySQL", "MongoDB", "DAO"] },
-  { grupo: "Ferramentas", itens: ["Git / GitHub", "Claude", "ChatGPT", "Scrum / Kanban", "Figma"] },
+  { grupo: "Dados", itens: ["PostgreSQL", "MySQL", "MongoDB", "DAO", "PowerBI"] },
+  { grupo: "Ferramentas", itens: ["Git / GitHub", "Claude/Cowork", "ChatGPT", "Scrum / Kanban", "Figma"] },
 ];
 
 const JOBS = [
