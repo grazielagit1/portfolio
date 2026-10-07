@@ -21,6 +21,7 @@ const PROJECTS = [
     descricao: "Inteligência operacional para salas Microsoft Teams Rooms: recebe os alertas do Teams Rooms Pro, registra incidentes, calcula a saúde de cada equipamento e recomenda ações por prioridade e risco, com foco em salas VIP.",
     impacto: "",
     tags: ["Python", "FastAPI", "Mistral AI", "SQLite", "Azure App Service", "Microsoft Graph", "Webhooks"], preview: "", github: "",
+    imagens: ["media/room-agent-1.webp", "media/room-agent-2.webp", "media/room-agent-3.webp", "media/room-agent-4.webp"],
   },
   {
     nome: "Cobrança Automática", categoria: "IA & automação", exemplo: false, privado: true,
@@ -94,7 +95,7 @@ const projEl = document.getElementById("projects");
 function renderProjects(cat) {
   filtersEl.querySelectorAll("button").forEach(b => b.setAttribute("aria-pressed", b.dataset.cat === cat));
   projEl.innerHTML = PROJECTS.filter(p => cat === "todos" || p.categoria === cat).map(p => `
-    <article class="proj${p.video || p.imagem ? " has-media" : ""}">
+    <article class="proj${p.video || p.imagem || p.imagens ? " has-media" : ""}">
       ${media(p)}
       <div class="proj-body">
         <span class="tag">${esc(p.categoria)}</span>
@@ -106,9 +107,10 @@ function renderProjects(cat) {
     </article>`).join("");
 }
 
-// mídia do card: vídeo (com a imagem como capa) ou só a imagem. É só ilustrativa, sem link.
-// O vídeo começa pausado e só toca quando a pessoa aperta o play.
+// mídia do card: galeria de imagens, vídeo (com a imagem como capa) ou só uma imagem.
+// É só ilustrativa, sem link. O vídeo começa pausado e só toca quando a pessoa aperta o play.
 function media(p) {
+  if (p.imagens && p.imagens.length) return gallery(p);
   if (!p.video && !p.imagem) return "";
   const alt = `Demonstração do projeto ${p.nome}`;
   const inner = p.video
@@ -117,6 +119,49 @@ function media(p) {
     : `<img src="${esc(p.imagem)}" alt="${esc(alt)}" loading="lazy">`;
   return `<div class="proj-media">${inner}</div>`;
 }
+
+// galeria: as imagens ficam lado a lado numa faixa que rola na horizontal.
+// Setas e bolinhas rolam a faixa; no celular dá para deslizar com o dedo.
+function gallery(p) {
+  const total = p.imagens.length;
+  const imgs = p.imagens.map((src, i) =>
+    `<img src="${esc(src)}" alt="${esc(p.nome)}: imagem ${i + 1} de ${total}" ${i ? 'loading="lazy"' : ""} draggable="false">`).join("");
+  const dots = p.imagens.map((_, i) =>
+    `<button class="gal-dot" type="button" data-go="${i}" aria-label="Ver imagem ${i + 1}"${i ? "" : ' aria-current="true"'}></button>`).join("");
+  return `
+    <div class="proj-media gallery">
+      <div class="gal-track" tabindex="0" role="group" aria-roledescription="carrossel" aria-label="Imagens do projeto ${esc(p.nome)}">${imgs}</div>
+      <button class="gal-btn prev" type="button" data-step="-1" aria-label="Imagem anterior"></button>
+      <button class="gal-btn next" type="button" data-step="1" aria-label="Próxima imagem"></button>
+      <div class="gal-dots">${dots}</div>
+    </div>`;
+}
+
+// setas e bolinhas: calcula a imagem de destino e rola até ela (dá a volta no fim e no começo)
+projEl.addEventListener("click", e => {
+  const btn = e.target.closest(".gal-btn, .gal-dot");
+  if (!btn) return;
+  const track = btn.closest(".gallery").querySelector(".gal-track");
+  const total = track.children.length;
+  const atual = Math.round(track.scrollLeft / track.clientWidth);
+  const alvo = btn.dataset.go !== undefined
+    ? Number(btn.dataset.go)
+    : (atual + Number(btn.dataset.step) + total) % total;
+  track.scrollTo({ left: alvo * track.clientWidth });
+});
+// setas do teclado quando a galeria está em foco
+projEl.addEventListener("keydown", e => {
+  if (!e.target.classList.contains("gal-track") || !["ArrowLeft", "ArrowRight"].includes(e.key)) return;
+  e.preventDefault();
+  e.target.closest(".gallery").querySelector(e.key === "ArrowLeft" ? ".prev" : ".next").click();
+});
+// ao rolar (pelas setas ou com o dedo), acende a bolinha da imagem que está aparecendo
+projEl.addEventListener("scroll", e => {
+  const track = e.target;
+  if (!track.classList || !track.classList.contains("gal-track")) return;
+  const atual = Math.round(track.scrollLeft / track.clientWidth);
+  track.closest(".gallery").querySelectorAll(".gal-dot").forEach((d, i) => d.toggleAttribute("aria-current", i === atual));
+}, true);
 
 // play / pause: um clique no botão (ou no próprio vídeo) alterna.
 // Só um vídeo toca por vez: dar play em um pausa os outros.

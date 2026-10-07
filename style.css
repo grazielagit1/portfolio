@@ -710,6 +710,116 @@ h3 {
   transform: scale(1.04);
 }
 
+/* galeria de imagens (carrossel) */
+.gal-track {
+  display: flex;
+  height: 100%;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  outline-offset: -3px;
+}
+
+.gal-track::-webkit-scrollbar {
+  display: none;
+}
+
+.gallery .gal-track img {
+  flex: 0 0 100%;
+  scroll-snap-align: start;
+  transform: none;
+}
+
+/* setas: aparecem ao passar o mouse sobre a galeria */
+.gal-btn {
+  position: absolute;
+  top: 50%;
+  z-index: 1;
+  width: 36px;
+  height: 36px;
+  margin-top: -18px;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--bg-2) 80%, transparent);
+  backdrop-filter: blur(4px);
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity .2s, background .2s, border-color .2s;
+}
+
+.gal-btn.prev { left: 10px; }
+.gal-btn.next { right: 10px; }
+
+/* desenho da seta (um "V" deitado feito com bordas) */
+.gal-btn::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  width: 9px;
+  height: 9px;
+  margin: auto;
+  border-top: 2px solid var(--fg);
+  border-right: 2px solid var(--fg);
+}
+
+.gal-btn.prev::before { transform: translateX(2px) rotate(-135deg); }
+.gal-btn.next::before { transform: translateX(-2px) rotate(45deg); }
+
+.gal-btn:hover {
+  background: var(--wine);
+  border-color: var(--accent);
+}
+
+.gallery:hover .gal-btn,
+.gal-btn:focus-visible {
+  opacity: 1;
+}
+
+/* bolinhas embaixo: a da imagem atual fica comprida e vinho */
+.gal-dots {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 10px;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+}
+
+.gal-dot {
+  width: 7px;
+  height: 7px;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--fg) 45%, transparent);
+  cursor: pointer;
+  transition: width .25s, background .25s;
+}
+
+.gal-dot[aria-current] {
+  width: 20px;
+  background: var(--accent);
+}
+
+/* no celular: sem "passar o mouse", então as setas ficam visíveis (e dá para deslizar) */
+@media (hover: none) {
+  .gal-btn {
+    opacity: .9;
+    width: 32px;
+    height: 32px;
+    margin-top: -16px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gal-track {
+    scroll-behavior: auto;
+  }
+}
+
 /* botão de play/pause sobre o vídeo */
 .proj-media:has(video) {
   cursor: pointer;
