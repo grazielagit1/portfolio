@@ -48,6 +48,13 @@ const PROJECTS = [
     video: "media/instituto-cornelio.mp4", imagem: "media/instituto-cornelio.webp",
   },
   {
+    nome: "Brasa & Pão", categoria: "front-end", exemplo: false,
+    descricao: "Site de hamburgueria com cardápio, montagem do lanche (tamanho e adicionais), favoritos e sacola de compras com quantidades, entrega ou retirada, cupom de desconto e cálculo do total do pedido.",
+    impacto: "",
+    tags: ["HTML", "CSS", "JavaScript", "Carrinho de compras"], preview: "", github: "",
+    video: "media/brasa-e-pao.mp4", imagem: "media/brasa-e-pao.webp",
+  },
+  {
     nome: "Barbearia Los Santos", categoria: "front-end", exemplo: false,
     descricao: "Site para uma barbearia 24 horas em Valinhos, com apresentação dos serviços, combo, endereço com mapa, avaliações de clientes e agendamento direto pelo WhatsApp.",
     impacto: "",
