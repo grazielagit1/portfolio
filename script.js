@@ -97,33 +97,43 @@ function renderProjects(cat) {
         ${chips(p.tags)}
       </div>
     </article>`).join("");
-  playVisibleVideos();
 }
 
-// mídia do card: vídeo (com a imagem como capa) ou só a imagem.
-// Se o projeto tem preview, a mídia vira um link para o site.
+// mídia do card: vídeo (com a imagem como capa) ou só a imagem. É só ilustrativa, sem link.
+// O vídeo começa pausado e só toca quando a pessoa aperta o play.
 function media(p) {
   if (!p.video && !p.imagem) return "";
   const alt = `Demonstração do projeto ${p.nome}`;
   const inner = p.video
-    ? `<video muted loop playsinline preload="none" poster="${esc(p.imagem || "")}" aria-label="${esc(alt)}"><source src="${esc(p.video)}" type="video/mp4"></video>`
+    ? `<video muted loop playsinline preload="none" poster="${esc(p.imagem || "")}" aria-label="${esc(alt)}"><source src="${esc(p.video)}" type="video/mp4"></video>
+       <button class="play-btn" type="button" aria-label="Reproduzir vídeo de ${esc(p.nome)}"><span class="play-icon"></span></button>`
     : `<img src="${esc(p.imagem)}" alt="${esc(alt)}" loading="lazy">`;
-  return p.preview
-    ? `<a class="proj-media" href="${esc(p.preview)}" target="_blank" rel="noopener" tabindex="-1">${inner}</a>`
-    : `<div class="proj-media">${inner}</div>`;
+  return `<div class="proj-media">${inner}</div>`;
 }
 
-// os vídeos só tocam enquanto o card aparece na tela (economiza dados e bateria).
-// Quem pediu menos animação no sistema vê só a imagem de capa.
-const videoObserver = "IntersectionObserver" in window && new IntersectionObserver(entries => {
-  entries.forEach(({ target, isIntersecting }) => {
-    if (isIntersecting) target.play().catch(() => {});
-    else target.pause();
-  });
-}, { threshold: .4 });
-function playVisibleVideos() {
-  if (!videoObserver || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-  projEl.querySelectorAll(".proj-media video").forEach(v => videoObserver.observe(v));
+// play / pause: um clique no botão (ou no próprio vídeo) alterna.
+// Só um vídeo toca por vez: dar play em um pausa os outros.
+projEl.addEventListener("click", e => {
+  const box = e.target.closest(".proj-media");
+  const video = box && box.querySelector("video");
+  if (!video) return;
+  if (video.paused) {
+    projEl.querySelectorAll(".proj-media video").forEach(v => { if (v !== video) v.pause(); });
+    video.play().catch(() => {});
+  } else {
+    video.pause();
+  }
+});
+// mantém o botão em sincronia com o estado do vídeo (tocando ou pausado)
+projEl.addEventListener("play", e => setPlaying(e.target, true), true);
+projEl.addEventListener("pause", e => setPlaying(e.target, false), true);
+function setPlaying(video, playing) {
+  const box = video.closest(".proj-media");
+  const btn = box && box.querySelector(".play-btn");
+  if (!btn) return;
+  box.classList.toggle("playing", playing);
+  const nome = btn.getAttribute("aria-label").replace(/^(Reproduzir|Pausar) vídeo de /, "");
+  btn.setAttribute("aria-label", `${playing ? "Pausar" : "Reproduzir"} vídeo de ${nome}`);
 }
 filtersEl.innerHTML = cats.map(c => `<button type="button" data-cat="${esc(c)}" id="f-${esc(c).replace(/\s/g, "-")}">${esc(c)}</button>`).join("");
 filtersEl.addEventListener("click", e => { const b = e.target.closest("button"); if (b) renderProjects(b.dataset.cat); });

@@ -710,6 +710,73 @@ h3 {
   transform: scale(1.04);
 }
 
+/* botão de play/pause sobre o vídeo */
+.proj-media:has(video) {
+  cursor: pointer;
+}
+
+.play-btn {
+  position: absolute;
+  inset: 50% auto auto 50%;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: 62px;
+  height: 62px;
+  margin: -31px 0 0 -31px;
+  border: 1px solid color-mix(in srgb, var(--accent) 60%, transparent);
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--wine) 85%, transparent);
+  box-shadow: 0 10px 30px -8px rgba(0, 0, 0, .6);
+  backdrop-filter: blur(4px);
+  cursor: pointer;
+  transition: transform .2s, opacity .25s, background .2s;
+}
+
+.play-btn:hover {
+  transform: scale(1.08);
+  background: var(--wine);
+}
+
+/* triângulo de play */
+.play-icon {
+  width: 0;
+  height: 0;
+  margin-left: 4px;
+  border-style: solid;
+  border-width: 11px 0 11px 18px;
+  border-color: transparent transparent transparent var(--accent-ink);
+}
+
+/* tocando: o ícone vira pausa (duas barras) e o botão some até passar o mouse */
+.proj-media.playing .play-icon {
+  width: 16px;
+  height: 20px;
+  margin-left: 0;
+  border: 0;
+  border-left: 5px solid var(--accent-ink);
+  border-right: 5px solid var(--accent-ink);
+}
+
+.proj-media.playing .play-btn {
+  opacity: 0;
+}
+
+.proj-media.playing:hover .play-btn,
+.proj-media.playing .play-btn:focus-visible {
+  opacity: 1;
+}
+
+/* no celular não existe "passar o mouse": o botão de pausa fica sempre visível, menor */
+@media (hover: none) {
+  .proj-media.playing .play-btn {
+    opacity: .85;
+    width: 44px;
+    height: 44px;
+    margin: -22px 0 0 -22px;
+  }
+}
+
 /* leve degradê embaixo, para a mídia "encostar" no card */
 .proj-media::after {
   content: "";
