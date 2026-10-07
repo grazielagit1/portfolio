@@ -45,18 +45,21 @@ const PROJECTS = [
     descricao: "Landing page responsiva para o Instituto Cornélio.",
     impacto: "",
     tags: ["HTML", "Tailwind CSS", "JavaScript"], preview: "https://instituto-cornelio.vercel.app/", github: "",
+    video: "media/instituto-cornelio.mp4", imagem: "media/instituto-cornelio.webp",
   },
   {
     nome: "Barbearia Los Santos", categoria: "front-end", exemplo: false,
     descricao: "Site para uma barbearia 24 horas em Valinhos, com apresentação dos serviços, combo, endereço com mapa, avaliações de clientes e agendamento direto pelo WhatsApp.",
     impacto: "",
     tags: ["HTML", "CSS", "JavaScript", "Responsivo"], preview: "https://barbearia-los-santos-three.vercel.app/", github: "",
+    video: "media/barbearia-los-santos.mp4", imagem: "media/barbearia-los-santos.webp",
   },
   {
     nome: "Site Refrigerantes", categoria: "front-end", exemplo: false,
     descricao: "Vitrine de refrigerantes com três sabores (abacate, laranja e morango) em um carrossel com botões de avançar e voltar, que troca produto e visual a cada tela.",
     impacto: "",
     tags: ["HTML", "CSS", "JavaScript", "DOM"], preview: "https://refrigerantes-lovat.vercel.app/", github: "https://github.com/grazielagit1/site-refrigerantes",
+    video: "media/refrigerantes.mp4", imagem: "media/refrigerantes.webp",
   },
 ];
 /* ==== fim da área editável ==== */
@@ -84,18 +87,48 @@ const projEl = document.getElementById("projects");
 function renderProjects(cat) {
   filtersEl.querySelectorAll("button").forEach(b => b.setAttribute("aria-pressed", b.dataset.cat === cat));
   projEl.innerHTML = PROJECTS.filter(p => cat === "todos" || p.categoria === cat).map(p => `
-    <article class="proj">
-      <span class="tag">${esc(p.categoria)}</span>
-      <h3>${esc(p.nome)}${p.exemplo ? '<span class="example">exemplo</span>' : ""}</h3>
-      <p>${esc(p.descricao)}</p>
-      ${p.impacto ? `<p class="impact">${esc(p.impacto)}</p>` : ""}
-      ${chips(p.tags)}
-      <div class="links">
-        ${p.preview ? `<a href="${esc(p.preview)}" target="_blank" rel="noopener">Preview ↗</a>` : ""}
-        ${p.github ? `<a href="${esc(p.github)}" target="_blank" rel="noopener">GitHub ↗</a>` : ""}
-        ${p.privado ? `<span class="private">🔒 repositório privado</span>` : ""}
+    <article class="proj${p.video || p.imagem ? " has-media" : ""}">
+      ${media(p)}
+      <div class="proj-body">
+        <span class="tag">${esc(p.categoria)}</span>
+        <h3>${esc(p.nome)}${p.exemplo ? '<span class="example">exemplo</span>' : ""}</h3>
+        <p>${esc(p.descricao)}</p>
+        ${p.impacto ? `<p class="impact">${esc(p.impacto)}</p>` : ""}
+        ${chips(p.tags)}
+        <div class="links">
+          ${p.preview ? `<a href="${esc(p.preview)}" target="_blank" rel="noopener">Preview ↗</a>` : ""}
+          ${p.github ? `<a href="${esc(p.github)}" target="_blank" rel="noopener">GitHub ↗</a>` : ""}
+          ${p.privado ? `<span class="private">🔒 repositório privado</span>` : ""}
+        </div>
       </div>
     </article>`).join("");
+  playVisibleVideos();
+}
+
+// mídia do card: vídeo (com a imagem como capa) ou só a imagem.
+// Se o projeto tem preview, a mídia vira um link para o site.
+function media(p) {
+  if (!p.video && !p.imagem) return "";
+  const alt = `Demonstração do projeto ${p.nome}`;
+  const inner = p.video
+    ? `<video muted loop playsinline preload="none" poster="${esc(p.imagem || "")}" aria-label="${esc(alt)}"><source src="${esc(p.video)}" type="video/mp4"></video>`
+    : `<img src="${esc(p.imagem)}" alt="${esc(alt)}" loading="lazy">`;
+  return p.preview
+    ? `<a class="proj-media" href="${esc(p.preview)}" target="_blank" rel="noopener" tabindex="-1">${inner}</a>`
+    : `<div class="proj-media">${inner}</div>`;
+}
+
+// os vídeos só tocam enquanto o card aparece na tela (economiza dados e bateria).
+// Quem pediu menos animação no sistema vê só a imagem de capa.
+const videoObserver = "IntersectionObserver" in window && new IntersectionObserver(entries => {
+  entries.forEach(({ target, isIntersecting }) => {
+    if (isIntersecting) target.play().catch(() => {});
+    else target.pause();
+  });
+}, { threshold: .4 });
+function playVisibleVideos() {
+  if (!videoObserver || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  projEl.querySelectorAll(".proj-media video").forEach(v => videoObserver.observe(v));
 }
 filtersEl.innerHTML = cats.map(c => `<button type="button" data-cat="${esc(c)}" id="f-${esc(c).replace(/\s/g, "-")}">${esc(c)}</button>`).join("");
 filtersEl.addEventListener("click", e => { const b = e.target.closest("button"); if (b) renderProjects(b.dataset.cat); });
