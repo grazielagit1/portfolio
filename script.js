@@ -235,20 +235,6 @@ filtersEl.innerHTML = cats.map(c => `<button type="button" data-cat="${esc(c)}" 
 filtersEl.addEventListener("click", e => { const b = e.target.closest("button"); if (b) renderProjects(b.dataset.cat); });
 renderProjects("todos");
 
-// status digitando no card de código
-const words = ["construindo", "aprendendo", "entregando", "aberta a projetos"];
-const typed = document.getElementById("typed");
-if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
-  let w = 0, i = words[0].length, del = true;
-  setInterval(() => {
-    const word = words[w];
-    i += del ? -1 : 1;
-    typed.textContent = `"${word.slice(0, i)}"`;
-    if (del && i === 0) { del = false; w = (w + 1) % words.length; }
-    else if (!del && i === words[w].length) { del = true; i += 6; }
-  }, 110);
-} else typed.textContent = '"construindo"';
-
 document.getElementById("copyBtn").addEventListener("click", async e => {
   const text = document.getElementById("email").textContent;
   try { await navigator.clipboard.writeText(text); e.target.textContent = "copiado"; }
@@ -272,19 +258,16 @@ matchMedia("(min-width: 761px)").addEventListener("change", e => { if (e.matches
 const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
 const finePointer = matchMedia("(pointer: fine)").matches;
 
-// tilt 3D: foto do hero e cards de projeto
-function tilt(el, max, onMove) {
+// tilt 3D: os cards de projeto sem mídia inclinam acompanhando o mouse
+function tilt(el, max) {
   el.addEventListener("pointermove", e => {
     const r = el.getBoundingClientRect();
     const x = (e.clientX - r.left) / r.width - .5, y = (e.clientY - r.top) / r.height - .5;
     el.style.transform = `rotateY(${x * max}deg) rotateX(${-y * max}deg)`;
-    onMove && onMove(x, y);
   });
   el.addEventListener("pointerleave", () => { el.style.transform = ""; });
 }
 if (!reduced && finePointer) {
-  const t = document.getElementById("tilt"), ph = t.querySelector(".photo");
-  tilt(t, 16, (x, y) => { if (!ph) return; ph.style.setProperty("--gx", (x + .5) * 100 + "%"); ph.style.setProperty("--gy", (y + .5) * 100 + "%"); });
   projEl.style.perspective = "900px";
   new MutationObserver(() => projEl.querySelectorAll(".proj:not(.has-media)").forEach(p => tilt(p, 8))).observe(projEl, { childList: true });
   projEl.querySelectorAll(".proj:not(.has-media)").forEach(p => tilt(p, 8));
