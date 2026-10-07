@@ -148,7 +148,11 @@ projEl.addEventListener("click", e => {
     ? Number(btn.dataset.go)
     : (atual + Number(btn.dataset.step) + total) % total;
   track.scrollTo({ left: alvo * track.clientWidth });
+  markDot(track, alvo);
 });
+function markDot(track, atual) {
+  track.closest(".gallery").querySelectorAll(".gal-dot").forEach((d, i) => d.toggleAttribute("aria-current", i === atual));
+}
 // setas do teclado quando a galeria está em foco
 projEl.addEventListener("keydown", e => {
   if (!e.target.classList.contains("gal-track") || !["ArrowLeft", "ArrowRight"].includes(e.key)) return;
@@ -159,8 +163,7 @@ projEl.addEventListener("keydown", e => {
 projEl.addEventListener("scroll", e => {
   const track = e.target;
   if (!track.classList || !track.classList.contains("gal-track")) return;
-  const atual = Math.round(track.scrollLeft / track.clientWidth);
-  track.closest(".gallery").querySelectorAll(".gal-dot").forEach((d, i) => d.toggleAttribute("aria-current", i === atual));
+  markDot(track, Math.round(track.scrollLeft / track.clientWidth));
 }, true);
 
 // play / pause: um clique no botão (ou no próprio vídeo) alterna.
