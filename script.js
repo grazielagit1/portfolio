@@ -17,6 +17,34 @@ const JOBS = [
 
 const PROJECTS = [
   {
+    nome: "Barbearia Los Santos", categoria: "front-end", exemplo: false,
+    descricao: "Site para uma barbearia 24 horas em Valinhos, com apresentação dos serviços, combo, endereço com mapa, avaliações de clientes e agendamento direto pelo WhatsApp.",
+    impacto: "",
+    tags: ["HTML", "CSS", "JavaScript", "Responsivo"], preview: "https://barbearia-los-santos-three.vercel.app/", github: "",
+    video: "media/barbearia-los-santos.mp4", imagem: "media/barbearia-los-santos.webp",
+  },
+  {
+    nome: "Site Refrigerantes", categoria: "front-end", exemplo: false,
+    descricao: "Vitrine de refrigerantes com três sabores (abacate, laranja e morango) em um carrossel com botões de avançar e voltar, que troca produto e visual a cada tela.",
+    impacto: "",
+    tags: ["HTML", "CSS", "JavaScript", "DOM"], preview: "https://refrigerantes-lovat.vercel.app/", github: "https://github.com/grazielagit1/site-refrigerantes",
+    video: "media/refrigerantes.mp4", imagem: "media/refrigerantes.webp",
+  },
+  {
+    nome: "Instituto Cornélio", categoria: "front-end", exemplo: false,
+    descricao: "Landing page responsiva para o Instituto Cornélio.",
+    impacto: "",
+    tags: ["HTML", "Tailwind CSS", "JavaScript"], preview: "https://instituto-cornelio.vercel.app/", github: "",
+    video: "media/instituto-cornelio.mp4", imagem: "media/instituto-cornelio.webp",
+  },
+  {
+    nome: "Brasa & Pão", categoria: "front-end", exemplo: false,
+    descricao: "Site de hamburgueria com cardápio, montagem do lanche (tamanho e adicionais), favoritos e sacola de compras com quantidades, entrega ou retirada, cupom de desconto e cálculo do total do pedido.",
+    impacto: "",
+    tags: ["HTML", "CSS", "JavaScript", "Carrinho de compras"], preview: "", github: "",
+    video: "media/brasa-e-pao.mp4", imagem: "media/brasa-e-pao.webp",
+  },
+  {
     nome: "Room Agent AI", categoria: "IA & automação", exemplo: false, privado: true,
     descricao: "Inteligência operacional para salas Microsoft Teams Rooms: recebe os alertas do Teams Rooms Pro, registra incidentes, calcula a saúde de cada equipamento e recomenda ações por prioridade e risco, com foco em salas VIP.",
     impacto: "",
@@ -40,34 +68,6 @@ const PROJECTS = [
     descricao: "Lê extratos em CSV ou PDF do seu banco, separa os gastos por categoria e gera uma planilha Excel com gráficos.",
     impacto: "",
     tags: ["Python", "Pypdf", "Openpyxl", "Regex"], github: "https://github.com/grazielagit1/analisador-de-gastos",
-  },
-  {
-    nome: "Instituto Cornélio", categoria: "front-end", exemplo: false,
-    descricao: "Landing page responsiva para o Instituto Cornélio.",
-    impacto: "",
-    tags: ["HTML", "Tailwind CSS", "JavaScript"], preview: "https://instituto-cornelio.vercel.app/", github: "",
-    video: "media/instituto-cornelio.mp4", imagem: "media/instituto-cornelio.webp",
-  },
-  {
-    nome: "Brasa & Pão", categoria: "front-end", exemplo: false,
-    descricao: "Site de hamburgueria com cardápio, montagem do lanche (tamanho e adicionais), favoritos e sacola de compras com quantidades, entrega ou retirada, cupom de desconto e cálculo do total do pedido.",
-    impacto: "",
-    tags: ["HTML", "CSS", "JavaScript", "Carrinho de compras"], preview: "", github: "",
-    video: "media/brasa-e-pao.mp4", imagem: "media/brasa-e-pao.webp",
-  },
-  {
-    nome: "Barbearia Los Santos", categoria: "front-end", exemplo: false,
-    descricao: "Site para uma barbearia 24 horas em Valinhos, com apresentação dos serviços, combo, endereço com mapa, avaliações de clientes e agendamento direto pelo WhatsApp.",
-    impacto: "",
-    tags: ["HTML", "CSS", "JavaScript", "Responsivo"], preview: "https://barbearia-los-santos-three.vercel.app/", github: "",
-    video: "media/barbearia-los-santos.mp4", imagem: "media/barbearia-los-santos.webp",
-  },
-  {
-    nome: "Site Refrigerantes", categoria: "front-end", exemplo: false,
-    descricao: "Vitrine de refrigerantes com três sabores (abacate, laranja e morango) em um carrossel com botões de avançar e voltar, que troca produto e visual a cada tela.",
-    impacto: "",
-    tags: ["HTML", "CSS", "JavaScript", "DOM"], preview: "https://refrigerantes-lovat.vercel.app/", github: "https://github.com/grazielagit1/site-refrigerantes",
-    video: "media/refrigerantes.mp4", imagem: "media/refrigerantes.webp",
   },
 ];
 /* ==== fim da área editável ==== */
