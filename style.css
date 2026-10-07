@@ -1,4 +1,4 @@
-/* Layout: terminal-flavored single column — big name hero + 3D photo card, then sobre / stack / trajetória / projetos / contato, each opened by a // comment.
+/* Layout: terminal-flavored single column — big name hero + 3D photo card, then sobre / stack / trajetória / projetos / contato, each opened by a small label.
    Tema único, escolhido de propósito: preto com vinho. */
 :root {
   --bg: #0b0809;
@@ -116,12 +116,6 @@ header.nav {
 
 .nav ul a:hover {
   color: var(--fg);
-}
-
-.nav ul a::before {
-  content: ".";
-  color: var(--accent);
-  opacity: .7;
 }
 
 /* botão ☰: só aparece no celular */
