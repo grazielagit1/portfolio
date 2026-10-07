@@ -95,11 +95,6 @@ function renderProjects(cat) {
         <p>${esc(p.descricao)}</p>
         ${p.impacto ? `<p class="impact">${esc(p.impacto)}</p>` : ""}
         ${chips(p.tags)}
-        <div class="links">
-          ${p.preview ? `<a href="${esc(p.preview)}" target="_blank" rel="noopener">Preview ↗</a>` : ""}
-          ${p.github ? `<a href="${esc(p.github)}" target="_blank" rel="noopener">GitHub ↗</a>` : ""}
-          ${p.privado ? `<span class="private">🔒 repositório privado</span>` : ""}
-        </div>
       </div>
     </article>`).join("");
   playVisibleVideos();
