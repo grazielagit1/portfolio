@@ -52,6 +52,13 @@ const PROJECTS = [
     imagens: ["media/room-agent-1.webp", "media/room-agent-2.webp", "media/room-agent-3.webp", "media/room-agent-4.webp"],
   },
   {
+    nome: "Maison Aurore", categoria: "front-end", exemplo: false,
+    descricao: "Loja virtual de uma boutique de moda com cena 3D interativa, rolagem suave, vitrine da coleção e página de produto com escolha de tamanho, detalhes que abrem e fecham e sacola de compras.",
+    impacto: "",
+    tags: ["React", "Three.js", "React Three Fiber", "Tailwind CSS", "Lenis", "Vite"], preview: "https://boutique-khaki-two.vercel.app/", github: "",
+    video: "media/maison-aurore.mp4", imagem: "media/maison-aurore.webp",
+  },
+  {
     nome: "Cobrança Automática", categoria: "IA & automação", exemplo: false, privado: true,
     descricao: "Automação da cobrança de títulos em aberto: monitora o ERP todos os dias, aplica uma régua de 15 estágios e envia cada e-mail só depois de aprovado no Teams, com checagem de pagamento no momento do envio. Reduziu o tempo entre aprovação e envio de até 24 horas para poucos minutos.",
     impacto: "",
