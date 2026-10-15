@@ -403,9 +403,7 @@ if (!reduced && finePointer) {
 
   // ---- tamanho da tela ----
   // computador (1024px ou mais): a espiral fica à direita do texto.
-  // celular e tablet: ela ganha uma faixa própria embaixo dos botões (o CSS reserva esse espaço no .hero),
-  // assim nunca fica atrás do texto.
-  const hero = canvas.closest(".hero");
+  // celular e tablet: fica atrás do texto, com pouca opacidade, para não atrapalhar a leitura.
   function resize() {
     const w = canvas.clientWidth, h = canvas.clientHeight;
     if (!w || !h) return;
@@ -414,17 +412,15 @@ if (!reduced && finePointer) {
     uniforms.uEscala.value = h * dpr / (2 * Math.tan(THREE.MathUtils.degToRad(cam.fov / 2)));
     const meiaAltura = Math.tan(THREE.MathUtils.degToRad(cam.fov / 2)) * cam.position.z; // metade da altura visível, em unidades 3D
     const meiaLargura = meiaAltura * cam.aspect;
+    uniforms.uForca.value = 1;
     if (innerWidth >= 1024) {
       grupo.position.set(Math.min(4.2, meiaLargura * .5), 0, 0);
       grupo.scale.setScalar(1);
     } else {
-      const faixa = parseFloat(getComputedStyle(hero).paddingBottom) || 260; // altura da faixa, em pixels
-      const centroPx = faixa / 2;                                              // centro da faixa, contando de baixo
-      grupo.position.set(0, -meiaAltura + (centroPx / h) * 2 * meiaAltura, 0);
-      // cabe na largura e na altura da faixa (a espiral inclinada fica ~2,6x mais larga que alta)
-      const porLargura = (meiaLargura * .92) / RAIO;
-      const porAltura = ((faixa / h) * 2 * meiaAltura * 1.25) / RAIO;
-      grupo.scale.setScalar(Math.min(1, porLargura, porAltura));
+      // celular e tablet: atrás do texto, centralizada e bem fraca, como uma textura de fundo
+      grupo.position.set(0, 0, 0);
+      grupo.scale.setScalar(Math.min(1, (meiaLargura * 1.1) / RAIO));
+      uniforms.uForca.value = .28;
     }
   }
   addEventListener("resize", resize); resize();

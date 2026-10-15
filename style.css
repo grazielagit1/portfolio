@@ -1376,17 +1376,14 @@ footer .wrap {
   }
 }
 
-/* topo no celular e tablet: reserva uma faixa embaixo dos botões só para a espiral de pontos
-   (no computador ela fica à direita do texto) */
-@media (max-width: 1023px) {
-  .hero {
-    padding-bottom: clamp(240px, 52vw, 380px);
-  }
-}
-
 /* tablet: a stack fica 2 + 2 (com 3 colunas sobrava 1 card sozinho na última linha) */
 @media (min-width: 561px) and (max-width: 1023px) {
   .stack {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
+}
+
+/* mantém palavras com hífen inteiras na mesma linha (ex.: "bem-vindo(a)." não quebra em "bem-" / "vindo") */
+.junto {
+  white-space: nowrap;
 }
