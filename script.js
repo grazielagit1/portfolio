@@ -12,15 +12,24 @@
 
   document.body.classList.add("splash-aberta"); // trava a rolagem enquanto a abertura está na tela
 
-  let t = 400; // pequena pausa na tela preta antes da primeira frase
-  frases.forEach((frase, i) => {
-    const ultima = i === frases.length - 1;
-    depois(t, () => frase.classList.add("ativa"));
-    t += ultima ? ULTIMA : TEMPO_NA_TELA;
-    depois(t, () => { frase.classList.remove("ativa"); frase.classList.add("saiu"); });
-    t += INTERVALO;
-  });
-  depois(t + 200, revelar);
+  // só começa quando as fontes carregaram (senão a frase aparece numa fonte e troca para outra no meio).
+  // Se a internet estiver lenta, espera no máximo 1,5 s e segue com a fonte reserva.
+  let comecou = false;
+  const comecar = () => {
+    if (comecou) return;
+    comecou = true;
+    let t = 300; // pequena pausa na tela preta antes da primeira frase
+    frases.forEach((frase, i) => {
+      const ultima = i === frases.length - 1;
+      depois(t, () => frase.classList.add("ativa"));
+      t += ultima ? ULTIMA : TEMPO_NA_TELA;
+      depois(t, () => { frase.classList.remove("ativa"); frase.classList.add("saiu"); });
+      t += INTERVALO;
+    });
+    depois(t + 200, revelar);
+  };
+  (document.fonts ? document.fonts.ready : Promise.resolve()).then(comecar);
+  depois(1500, comecar);
 
   function revelar() {
     timers.forEach(clearTimeout);
@@ -314,66 +323,109 @@ if (!reduced && finePointer) {
   projEl.querySelectorAll(".proj:not(.has-media)").forEach(p => tilt(p, 8));
 }
 
-// cena 3D do hero
+// cena 3D do topo: uma espiral pontilhista (feita só de pontos) girando devagar
+// Ideia: cada ponto fica sobre uma espiral que abre do centro para fora; perto do centro os pontos
+// são pequenos e apagados, no meio do braço são maiores e mais fortes (efeito "pontilhismo").
 (function scene() {
   if (!window.THREE) return;
   const canvas = document.getElementById("scene");
   let renderer;
   try { renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true }); } catch { return; }
-  renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+  const dpr = Math.min(devicePixelRatio, 2);
+  renderer.setPixelRatio(dpr);
   const sc = new THREE.Scene();
   const cam = new THREE.PerspectiveCamera(40, 1, .1, 100);
-  cam.position.set(0, 0, 14);
+  cam.position.set(0, 0, 16);
 
-  const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
-  const matMain = new THREE.MeshStandardMaterial({ roughness: .35, metalness: .25, flatShading: true });
-  const matWire = new THREE.MeshBasicMaterial({ wireframe: true, transparent: true, opacity: .35 });
-  const matGlass = new THREE.MeshStandardMaterial({ roughness: .15, metalness: .6, flatShading: true });
-  const orbMat = new THREE.MeshBasicMaterial();
-
-  const shapes = [
-    [new THREE.IcosahedronGeometry(1.4, 0), matMain, [-7.2, 3, -3]],
-    [new THREE.BoxGeometry(1.5, 1.5, 1.5), matGlass, [-7.6, -3.6, -2]],
-    [new THREE.TorusGeometry(1, .34, 14, 36), matMain, [8.4, 4, -4]],
-    [new THREE.OctahedronGeometry(1.1, 0), matGlass, [8.6, -3.6, -3]],
-    [new THREE.IcosahedronGeometry(3.4, 1), matWire, [9, -.5, -11]],
-    [new THREE.BoxGeometry(.8, .8, .8), matMain, [-2.2, 5.4, -5]],
-    [new THREE.TorusKnotGeometry(.7, .22, 80, 12), matGlass, [1.4, -5.6, -4]],
-  ].map(([g, m, p], i) => {
-    const mesh = new THREE.Mesh(g, m);
-    mesh.position.set(...p);
-    mesh.userData = { base: p[1], speed: .25 + i * .07, phase: i * 1.3 };
-    sc.add(mesh);
-    return mesh;
-  });
-
-  const orb = new THREE.Mesh(new THREE.SphereGeometry(.55, 32, 32), orbMat);
-  orb.position.set(1.2, 5, -3);
-  sc.add(orb);
-  const pl = new THREE.PointLight(0xffffff, 2.2, 30);
-  pl.position.copy(orb.position);
-  sc.add(pl, new THREE.AmbientLight(0xffffff, .35));
-  const dl = new THREE.DirectionalLight(0xffffff, .5);
-  dl.position.set(-5, 5, 6);
-  sc.add(dl);
-
-  function paint() {
-    const acc = new THREE.Color(css("--accent")), acc2 = new THREE.Color(css("--accent-2")), line = new THREE.Color(css("--line"));
-    const bg2 = new THREE.Color(css("--bg-2"));
-    // tons de grafite: as formas ficam discretas, e só a bolinha branca brilha
-    matMain.color = bg2.clone().lerp(acc, .16);
-    matGlass.color = bg2.clone().lerp(acc, .24);
-    matWire.color = line.clone().lerp(acc, .18);
-    orbMat.color = acc; pl.color = acc;
+  // ---- os pontos da espiral ----
+  const BRACOS = 2;        // quantos braços a espiral tem
+  const VOLTAS = 2.6;      // quantas voltas cada braço dá
+  const RAIO = 6.2;        // tamanho da espiral
+  const POR_BRACO = 1500;  // pontos em cada braço
+  const pos = [], tam = [], alfa = [], fase = [];
+  for (let b = 0; b < BRACOS; b++) {
+    for (let i = 0; i < POR_BRACO; i++) {
+      const t = i / POR_BRACO;                       // 0 = centro, 1 = ponta do braço
+      const ang = t * VOLTAS * Math.PI * 2 + b * (Math.PI * 2 / BRACOS);
+      const r = .25 + Math.pow(t, .85) * RAIO;
+      const espalha = (.12 + t * .7) * (Math.random() - .5) * 2; // o braço engrossa para fora
+      const lado = (Math.random() - .5) * (.15 + t * .55);
+      const x = Math.cos(ang) * (r + espalha) - Math.sin(ang) * lado;
+      const y = Math.sin(ang) * (r + espalha) + Math.cos(ang) * lado;
+      const z = (Math.random() - .5) * .5 * (1 - t) + Math.sin(t * 9) * .25; // leve ondulação = profundidade
+      pos.push(x, y, z);
+      const meio = Math.sin(Math.PI * Math.min(1, t * 1.15));               // 0 nas pontas, 1 no meio do braço
+      tam.push(.025 + .085 * meio * (.55 + Math.random() * .45));
+      alfa.push(.18 + .82 * meio * (.6 + Math.random() * .4));
+      fase.push(Math.random() * Math.PI * 2);
+    }
   }
-  paint();
+  // poeira solta em volta, para dar profundidade
+  for (let i = 0; i < 600; i++) {
+    const a = Math.random() * Math.PI * 2, r = 1 + Math.random() * RAIO * 1.35;
+    pos.push(Math.cos(a) * r, Math.sin(a) * r, (Math.random() - .5) * 3);
+    tam.push(.015 + Math.random() * .03); alfa.push(.12 + Math.random() * .25); fase.push(Math.random() * 6.28);
+  }
 
+  const geo = new THREE.BufferGeometry();
+  geo.setAttribute("position", new THREE.Float32BufferAttribute(pos, 3));
+  geo.setAttribute("aTam", new THREE.Float32BufferAttribute(tam, 1));
+  geo.setAttribute("aAlfa", new THREE.Float32BufferAttribute(alfa, 1));
+  geo.setAttribute("aFase", new THREE.Float32BufferAttribute(fase, 1));
+  const uniforms = { uEscala: { value: 1 }, uTempo: { value: 0 }, uForca: { value: 1 } };
+  const pontos = new THREE.Points(geo, new THREE.ShaderMaterial({
+    uniforms, transparent: true, depthWrite: false,
+    // vertex shader: posiciona cada ponto e calcula o tamanho em pixels (menor quanto mais longe)
+    vertexShader: `
+      attribute float aTam; attribute float aAlfa; attribute float aFase;
+      uniform float uEscala; uniform float uTempo; uniform float uForca;
+      varying float vAlfa;
+      void main() {
+        vec4 mv = modelViewMatrix * vec4(position, 1.);
+        gl_Position = projectionMatrix * mv;
+        gl_PointSize = aTam * uEscala / -mv.z;
+        vAlfa = aAlfa * uForca * (.75 + .25 * sin(uTempo * 1.3 + aFase)); // cada ponto "cintila" de leve
+      }`,
+    // fragment shader: desenha cada ponto como um círculo branco de borda suave
+    fragmentShader: `
+      varying float vAlfa;
+      void main() {
+        float d = length(gl_PointCoord - .5);
+        if (d > .5) discard;
+        gl_FragColor = vec4(1., 1., 1., vAlfa * smoothstep(.5, .35, d));
+      }`,
+  }));
+  const grupo = new THREE.Group();
+  grupo.add(pontos);
+  grupo.rotation.x = -1.05; // inclinada, vista de lado: assim a espiral ganha perspectiva 3D
+  grupo.rotation.y = .35;
+  sc.add(grupo);
+
+  // ---- tamanho da tela ----
+  // computador (1024px ou mais): a espiral fica à direita do texto.
+  // celular e tablet: ela ganha uma faixa própria embaixo dos botões (o CSS reserva esse espaço no .hero),
+  // assim nunca fica atrás do texto.
+  const hero = canvas.closest(".hero");
   function resize() {
     const w = canvas.clientWidth, h = canvas.clientHeight;
+    if (!w || !h) return;
     renderer.setSize(w, h, false);
     cam.aspect = w / h; cam.updateProjectionMatrix();
-    const narrow = w < 700;
-    shapes.forEach(s => s.scale.setScalar(narrow ? .6 : 1));
+    uniforms.uEscala.value = h * dpr / (2 * Math.tan(THREE.MathUtils.degToRad(cam.fov / 2)));
+    const meiaAltura = Math.tan(THREE.MathUtils.degToRad(cam.fov / 2)) * cam.position.z; // metade da altura visível, em unidades 3D
+    const meiaLargura = meiaAltura * cam.aspect;
+    if (innerWidth >= 1024) {
+      grupo.position.set(Math.min(4.2, meiaLargura * .5), 0, 0);
+      grupo.scale.setScalar(1);
+    } else {
+      const faixa = parseFloat(getComputedStyle(hero).paddingBottom) || 260; // altura da faixa, em pixels
+      const centroPx = faixa / 2;                                              // centro da faixa, contando de baixo
+      grupo.position.set(0, -meiaAltura + (centroPx / h) * 2 * meiaAltura, 0);
+      // cabe na largura e na altura da faixa (a espiral inclinada fica ~2,6x mais larga que alta)
+      const porLargura = (meiaLargura * .92) / RAIO;
+      const porAltura = ((faixa / h) * 2 * meiaAltura * 1.25) / RAIO;
+      grupo.scale.setScalar(Math.min(1, porLargura, porAltura));
+    }
   }
   addEventListener("resize", resize); resize();
 
@@ -385,17 +437,13 @@ if (!reduced && finePointer) {
   new IntersectionObserver(([en]) => { visible = en.isIntersecting; }).observe(canvas);
   function frame() {
     const t = clock.getElapsedTime();
-    shapes.forEach(s => {
-      const u = s.userData;
-      s.rotation.x = t * u.speed * .6; s.rotation.y = t * u.speed;
-      s.position.y = u.base + Math.sin(t * .6 + u.phase) * .35;
-    });
-    orb.position.y = 5 + Math.sin(t * .8) * .3; pl.position.copy(orb.position);
-    cam.position.x += (mx * 2.2 - cam.position.x) * .04;
-    cam.position.y += (-my * 1.6 - cam.position.y) * .04;
-    cam.lookAt(0, 0, 0);
+    uniforms.uTempo.value = t;
+    pontos.rotation.z = -t * .08;                       // a espiral gira em torno do próprio centro
+    // inclina levemente acompanhando o mouse (no celular e tablet, sem giro lateral, para ficar centralizada)
+    grupo.rotation.y = (innerWidth >= 1024 ? .35 : .05) + mx * .35;
+    grupo.rotation.x = -1.05 + my * .25;
     renderer.render(sc, cam);
   }
-  if (reduced) { frame(); return; }
+  if (reduced) { frame(); addEventListener("resize", frame); return; }
   (function loop() { if (visible) frame(); requestAnimationFrame(loop); })();
 })();

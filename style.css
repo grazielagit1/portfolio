@@ -1315,29 +1315,27 @@ footer .wrap {
   text-wrap: balance;
   font: 300 clamp(1.5rem, 4.2vw, 3.3rem)/1.25 var(--f-display);
   font-variation-settings: "SOFT" 100;
-  letter-spacing: .32em;     /* começa bem espaçada... */
+  /* espaçamento fixo: animar o espaçamento mudava a quebra de linha no meio da animação */
+  letter-spacing: .12em;
   opacity: 0;
-  filter: blur(10px);
-  transform: translateY(8px);
+  filter: blur(12px);
+  transform: translateY(10px) scale(.985);
   transition:
-    opacity 1.1s ease,
-    letter-spacing 2.2s cubic-bezier(.2, .7, .2, 1),
-    filter 1.1s ease,
-    transform 1.6s cubic-bezier(.2, .7, .2, 1);
+    opacity 1.2s ease,
+    filter 1.2s ease,
+    transform 1.8s cubic-bezier(.2, .7, .2, 1);
 }
 
 .splash-frase.ativa {
-  letter-spacing: .12em;     /* ...e as letras se aproximam enquanto ela surge */
   opacity: 1;
   filter: blur(0);
   transform: none;
 }
 
 .splash-frase.saiu {
-  letter-spacing: .14em;
   opacity: 0;
-  filter: blur(6px);
-  transform: translateY(-6px);
+  filter: blur(8px);
+  transform: translateY(-8px);
   transition-duration: .9s;
 }
 
@@ -1373,8 +1371,22 @@ footer .wrap {
   .splash-frase,
   .splash-frase.ativa,
   .splash-frase.saiu {
-    letter-spacing: .12em;
     filter: none;
     transform: none;
+  }
+}
+
+/* topo no celular e tablet: reserva uma faixa embaixo dos botões só para a espiral de pontos
+   (no computador ela fica à direita do texto) */
+@media (max-width: 1023px) {
+  .hero {
+    padding-bottom: clamp(240px, 52vw, 380px);
+  }
+}
+
+/* tablet: a stack fica 2 + 2 (com 3 colunas sobrava 1 card sozinho na última linha) */
+@media (min-width: 561px) and (max-width: 1023px) {
+  .stack {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
