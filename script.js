@@ -1,3 +1,37 @@
+// ==== abertura: as frases aparecem e somem, uma de cada vez, e depois o site é revelado ====
+// Os tempos (em milissegundos) ficam aqui em cima para facilitar ajustes.
+(function abertura() {
+  const splash = document.getElementById("splash");
+  if (!splash) return;
+  const frases = [...splash.querySelectorAll(".splash-frase")];
+  const TEMPO_NA_TELA = 2600; // quanto cada frase fica visível (inclui o tempo de surgir)
+  const INTERVALO = 700;      // pausa entre uma frase sumir e a próxima surgir
+  const ULTIMA = 2000;        // a última ("Aproveite!") é mais curta
+  const timers = [];
+  const depois = (ms, fn) => timers.push(setTimeout(fn, ms));
+
+  document.body.classList.add("splash-aberta"); // trava a rolagem enquanto a abertura está na tela
+
+  let t = 400; // pequena pausa na tela preta antes da primeira frase
+  frases.forEach((frase, i) => {
+    const ultima = i === frases.length - 1;
+    depois(t, () => frase.classList.add("ativa"));
+    t += ultima ? ULTIMA : TEMPO_NA_TELA;
+    depois(t, () => { frase.classList.remove("ativa"); frase.classList.add("saiu"); });
+    t += INTERVALO;
+  });
+  depois(t + 200, revelar);
+
+  function revelar() {
+    timers.forEach(clearTimeout);
+    splash.classList.add("fim");                    // a tela preta se dissolve (transição do CSS)
+    document.body.classList.remove("splash-aberta");
+    setTimeout(() => splash.remove(), 1300);        // depois de sumir, sai da página de vez
+  }
+  document.getElementById("splashPular").addEventListener("click", revelar);
+  addEventListener("keydown", e => { if (e.key === "Escape" && document.body.contains(splash)) revelar(); });
+})();
+
 /* ==== EDITE AQUI: todo o conteúdo do portfólio ==== */
 const STACK = [
   { grupo: "Front-end", itens: ["JavaScript (Three.js)", "HTML5", "CSS3", "Tailwind CSS"] },
@@ -326,9 +360,10 @@ if (!reduced && finePointer) {
   function paint() {
     const acc = new THREE.Color(css("--accent")), acc2 = new THREE.Color(css("--accent-2")), line = new THREE.Color(css("--line"));
     const bg2 = new THREE.Color(css("--bg-2"));
-    matMain.color = new THREE.Color(css("--wine")).lerp(bg2, .35);
-    matGlass.color = bg2.clone().lerp(acc, .3);
-    matWire.color = line.clone().lerp(acc, .4);
+    // tons de grafite: as formas ficam discretas, e só a bolinha branca brilha
+    matMain.color = bg2.clone().lerp(acc, .16);
+    matGlass.color = bg2.clone().lerp(acc, .24);
+    matWire.color = line.clone().lerp(acc, .18);
     orbMat.color = acc; pl.color = acc;
   }
   paint();

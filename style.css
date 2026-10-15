@@ -1,20 +1,22 @@
-/* Layout: terminal-flavored single column — big name hero + 3D photo card, then sobre / stack / trajetória / projetos / contato, each opened by a small label.
-   Tema único, escolhido de propósito: preto com vinho. */
+/* Layout: abertura com frases + coluna única (topo, sobre, stack, trajetória, projetos, contato).
+   Tema único, escolhido de propósito: preto com letras brancas, monocromático. */
 :root {
-  --bg: #0b0809;
-  /* preto levemente avinhado */
-  --bg-2: #150e10;
-  --line: #2e1d22;
-  --fg: #f3eaec;
-  --muted: #a8939a;
-  --accent: #d4607f;
-  /* vinho claro, para textos e destaques */
-  --wine: #7d1d38;
-  /* vinho profundo, para preenchimentos */
-  --accent-2: #eab0bf;
-  /* rosé, só em sintaxe */
-  --accent-ink: #fff5f7;
-  --glow: rgba(125, 29, 56, .45);
+  --bg: #000000;
+  /* preto puro */
+  --bg-2: #0d0d0d;
+  /* superfícies (cards) um tom acima do fundo */
+  --line: #262626;
+  --fg: #ffffff;
+  --muted: #8f8f8f;
+  --accent: #ffffff;
+  /* destaques em branco */
+  --wine: #ffffff;
+  /* preenchimentos (botões, filtro ativo): branco, com texto preto por cima */
+  --accent-2: #bdbdbd;
+  /* cinza claro, só em detalhes */
+  --accent-ink: #000000;
+  /* texto sobre preenchimento branco */
+  --glow: rgba(255, 255, 255, .05);
   --f-display: "Fraunces", Georgia, "Times New Roman", serif;
   --f-body: "Nunito", "Segoe UI", system-ui, sans-serif;
   --f-mono: "Fira Code", ui-monospace, Consolas, monospace;
@@ -1262,132 +1264,117 @@ footer .wrap {
   }
 }
 
-/* ===== abertura 3D (estrela de pontos) =====
-   A seção é bem alta (3 telas); dentro dela, .intro-sticky fica "presa" na tela enquanto
-   a pessoa rola. Assim a rolagem vira o controle da animação. O JS escreve --p (0 a 1). */
-.intro {
-  --p: 0;
-  position: relative;
-  height: 320vh;
-  border-bottom: 1px solid var(--line);
+/* no tema preto e branco, os botões ficam brancos ao passar o mouse:
+   o desenho (seta ou X) vira preto para continuar visível */
+.gal-btn:hover::before {
+  border-color: var(--accent-ink);
 }
 
-.intro.static {
-  height: 100vh;
-  --p: 1;
+.lb-close:hover::before,
+.lb-close:hover::after {
+  background: var(--accent-ink);
 }
 
-.intro-sticky {
-  position: sticky;
-  top: 0;
-  height: 100vh;
-  height: 100svh;
-  overflow: hidden;
-  display: grid;
-  place-items: center;
-}
-
-#star {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-}
-
-/* brilho vinho atrás da estrela: cresce conforme ela se completa */
-.intro-glow {
-  position: absolute;
-  width: min(90vmin, 900px);
-  aspect-ratio: 1;
-  max-width: 100%;
-  border-radius: 50%;
-  background: radial-gradient(circle, var(--glow), transparent 62%);
-  opacity: calc(.15 + var(--p) * .85);
-  transform: scale(calc(.6 + var(--p) * .5));
-  pointer-events: none;
-}
-
-/* frase final: aparece só no último trecho da rolagem */
-.intro-text {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: clamp(32px, 9vh, 90px);
-  padding-inline: 20px;
-  text-align: center;
-  opacity: clamp(0, (var(--p) - .78) * 5, 1);
-  transform: translateY(calc((1 - clamp(0, (var(--p) - .78) * 5, 1)) * 24px));
-  pointer-events: none;
-}
-
-.intro-kicker {
-  margin: 0 0 10px;
-  font: .78rem var(--f-mono);
-  letter-spacing: .08em;
-  text-transform: uppercase;
-  color: var(--accent);
-}
-
-.intro-phrase {
-  margin: 0;
-  font: 400 clamp(1.7rem, 4.6vw, 3.2rem)/1.1 var(--f-display);
-  font-variation-settings: "SOFT" 100;
-  letter-spacing: -.01em;
-  text-wrap: balance;
-}
-
-.intro-phrase em {
-  color: var(--accent);
-}
-
-/* indicador "role para revelar": some assim que a pessoa começa a rolar */
-.scroll-hint {
-  position: absolute;
-  bottom: 28px;
-  left: 50%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
-  font: .72rem var(--f-mono);
-  letter-spacing: .1em;
-  text-transform: uppercase;
-  color: var(--muted);
-  opacity: clamp(0, 1 - var(--p) * 8, 1);
-  transform: translateX(-50%);
-  pointer-events: none;
-}
-
-.mouse {
-  width: 22px;
-  height: 34px;
-  border: 1.5px solid var(--muted);
-  border-radius: 12px;
-  display: flex;
-  justify-content: center;
-  padding-top: 6px;
-}
-
-.wheel {
-  width: 3px;
-  height: 7px;
-  border-radius: 2px;
-  background: var(--accent);
-  animation: wheel 1.6s ease-in-out infinite;
-}
-
-@keyframes wheel {
-  0% { transform: translateY(0); opacity: 1; }
-  70% { transform: translateY(9px); opacity: 0; }
-  100% { transform: translateY(0); opacity: 0; }
-}
-
-.intro.static .scroll-hint {
+/* ===== abertura: frases que aparecem e somem, uma de cada vez =====
+   Só aparece com o JavaScript ligado (classe .js no <html>); sem JS, o site abre direto.
+   O script.js troca as classes: .ativa (frase aparecendo/visível), .saiu (frase sumindo)
+   e, no fim, .splash.fim (a tela preta se dissolve e revela o site). */
+.splash {
   display: none;
 }
 
-@media (max-width: 760px) {
-  .intro {
-    height: 260vh;
+.js .splash {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: grid;
+  place-items: center;
+  padding-inline: 24px;
+  background: #000;
+  color: #fff;
+  transition: opacity 1.2s ease, visibility 0s linear 1.2s;
+}
+
+/* enquanto a abertura está na tela, a página atrás não rola */
+.js body.splash-aberta {
+  overflow: hidden;
+}
+
+.splash.fim {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.splash-frase {
+  grid-area: 1 / 1; /* as três frases ocupam o mesmo lugar, no centro */
+  max-width: min(100%, 1100px);
+  margin: 0;
+  text-align: center;
+  text-transform: uppercase;
+  text-wrap: balance;
+  font: 300 clamp(1.5rem, 4.2vw, 3.3rem)/1.25 var(--f-display);
+  font-variation-settings: "SOFT" 100;
+  letter-spacing: .32em;     /* começa bem espaçada... */
+  opacity: 0;
+  filter: blur(10px);
+  transform: translateY(8px);
+  transition:
+    opacity 1.1s ease,
+    letter-spacing 2.2s cubic-bezier(.2, .7, .2, 1),
+    filter 1.1s ease,
+    transform 1.6s cubic-bezier(.2, .7, .2, 1);
+}
+
+.splash-frase.ativa {
+  letter-spacing: .12em;     /* ...e as letras se aproximam enquanto ela surge */
+  opacity: 1;
+  filter: blur(0);
+  transform: none;
+}
+
+.splash-frase.saiu {
+  letter-spacing: .14em;
+  opacity: 0;
+  filter: blur(6px);
+  transform: translateY(-6px);
+  transition-duration: .9s;
+}
+
+/* frase curta ("Aproveite!") fica maior */
+.splash-frase:last-of-type {
+  font-size: clamp(2rem, 6vw, 4.6rem);
+}
+
+.splash-pular {
+  position: absolute;
+  right: 24px;
+  bottom: calc(24px + env(safe-area-inset-bottom, 0px));
+  padding: 8px 4px;
+  border: 0;
+  border-bottom: 1px solid #555;
+  background: none;
+  color: #8f8f8f;
+  font: .72rem var(--f-mono);
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: color .2s, border-color .2s;
+}
+
+.splash-pular:hover,
+.splash-pular:focus-visible {
+  color: #fff;
+  border-color: #fff;
+}
+
+/* quem pediu menos animação: só aparece e some, sem movimento nem desfoque */
+@media (prefers-reduced-motion: reduce) {
+  .splash-frase,
+  .splash-frase.ativa,
+  .splash-frase.saiu {
+    letter-spacing: .12em;
+    filter: none;
+    transform: none;
   }
 }

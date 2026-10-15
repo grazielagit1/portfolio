@@ -9,11 +9,21 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..700,100;1,9..144,300..700,100&family=Nunito:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap">
 <link rel="stylesheet" href="style.css">
+<!-- avisa o CSS que o JavaScript está ligado, antes de a página aparecer (assim a abertura cobre tudo desde o início) -->
+<script>document.documentElement.classList.add("js");</script>
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link rel="icon" type="image/png" href="favicon.png">
 <link rel="apple-touch-icon" href="favicon.png">
 </head>
 <body>
+
+<!-- abertura: as frases aparecem e somem uma de cada vez; depois o site é revelado (script.js) -->
+<div class="splash" id="splash" aria-live="polite">
+  <p class="splash-frase">Bem-vindo(a) ao meu portfólio.</p>
+  <p class="splash-frase">Aqui eu transformo suas ideias em algo funcional</p>
+  <p class="splash-frase">Aproveite!</p>
+  <button class="splash-pular" id="splashPular" type="button">pular</button>
+</div>
 
 <header class="nav">
   <div class="wrap">
@@ -34,23 +44,8 @@
   </div>
 </header>
 
-<main id="top">
-  <!-- abertura 3D: a estrela de pontos se forma conforme a pessoa rola a página (star.js) -->
-  <section class="intro" id="intro" aria-label="Apresentação">
-    <div class="intro-sticky">
-      <div class="intro-glow" aria-hidden="true"></div>
-      <canvas id="star" aria-hidden="true"></canvas>
-      <div class="intro-text">
-        <p class="intro-kicker">Graziela Romualdo · Desenvolvedora Full Stack</p>
-        <p class="intro-phrase">Transformando perguntas<br>em <em>possibilidades.</em></p>
-      </div>
-      <div class="scroll-hint" aria-hidden="true">
-        <span class="mouse"><span class="wheel"></span></span>
-        role para revelar
-      </div>
-    </div>
-  </section>
 
+<main id="top">
   <section class="hero">
     <canvas id="scene" aria-hidden="true"></canvas>
     <div class="wrap hero-grid">
@@ -139,6 +134,5 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script src="script.js"></script>
-<script src="star.js"></script>
 </body>
 </html>
