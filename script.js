@@ -60,6 +60,13 @@ const JOBS = [
 
 const PROJECTS = [
   {
+    nome: "Aurum Hypercars", categoria: "front-end", exemplo: false,
+    descricao: "Site de carros hiperesportivos com carro 3D que se desmonta peça por peça conforme a rolagem, coleção de modelos e configurador em tempo real: cor, acabamentos, rodas, interior, vistas da câmera e abertura das portas.",
+    impacto: "",
+    tags: ["3D interativo", "WebGL", "Animação no scroll", "Configurador 3D"], preview: "", github: "",
+    video: "media/aurum-hypercars.mp4", imagem: "media/aurum-hypercars.webp",
+  },
+  {
     nome: "Barbearia Los Santos", categoria: "front-end", exemplo: false,
     descricao: "Site para uma barbearia 24 horas em Valinhos, com poste de barbearia e tesoura em 3D, apresentação dos serviços, combo, endereço com mapa, carrossel de avaliações e agendamento direto pelo WhatsApp.",
     impacto: "",
@@ -100,13 +107,6 @@ const PROJECTS = [
     impacto: "",
     tags: ["React", "Three.js", "React Three Fiber", "Tailwind CSS", "Lenis", "Vite"], preview: "https://boutique-khaki-two.vercel.app/", github: "",
     video: "media/maison-aurore.mp4", imagem: "media/maison-aurore.webp",
-  },
-  {
-    nome: "Aurum Hypercars", categoria: "front-end", exemplo: false,
-    descricao: "Site de carros hiperesportivos com carro 3D que se desmonta peça por peça conforme a rolagem, coleção de modelos e configurador em tempo real: cor, acabamentos, rodas, interior, vistas da câmera e abertura das portas.",
-    impacto: "",
-    tags: ["3D interativo", "WebGL", "Animação no scroll", "Configurador 3D"], preview: "", github: "",
-    video: "media/aurum-hypercars.mp4", imagem: "media/aurum-hypercars.webp",
   },
   {
     nome: "Cobrança Automática", categoria: "IA & automação", exemplo: false, privado: true,
@@ -162,16 +162,17 @@ function renderProjects(cat) {
         ${chips(p.tags)}
       </div>
     </article>`).join("");
+  tocarAoAparecer();
 }
 
 // mídia do card: galeria de imagens, vídeo (com a imagem como capa) ou só uma imagem.
-// É só ilustrativa, sem link. O vídeo começa pausado e só toca quando a pessoa aperta o play.
+// É só ilustrativa, sem link. O vídeo toca sozinho quando aparece na tela e pode ser pausado.
 function media(p) {
   if (p.imagens && p.imagens.length) return gallery(p);
   if (!p.video && !p.imagem) return "";
   const alt = `Demonstração do projeto ${p.nome}`;
   const inner = p.video
-    ? `<video muted loop playsinline preload="none" poster="${esc(p.imagem || "")}" aria-label="${esc(alt)}"><source src="${esc(p.video)}" type="video/mp4"></video>
+    ? `<video muted loop playsinline preload="metadata" poster="${esc(p.imagem || "")}" aria-label="${esc(alt)}"><source src="${esc(p.video)}" type="video/mp4"></video>
        <button class="play-btn" type="button" aria-label="Reproduzir vídeo de ${esc(p.nome)}"><span class="play-icon"></span></button>`
     : `<img src="${esc(p.imagem)}" alt="${esc(alt)}" loading="lazy">`;
   return `<div class="proj-media">${inner}</div>`;
@@ -264,16 +265,35 @@ projEl.addEventListener("scroll", e => {
   markDot(track, Math.round(track.scrollLeft / track.clientWidth));
 }, true);
 
+// os vídeos tocam sozinhos (sem som, em loop) quando aparecem na tela e pausam quando saem,
+// para não gastar internet e bateria com vídeo que ninguém está vendo.
+// Quem pediu menos animação no sistema vê a capa e dá play se quiser.
+const autoplayLigado = !matchMedia("(prefers-reduced-motion: reduce)").matches;
+const observaVideos = "IntersectionObserver" in window && new IntersectionObserver(entradas => {
+  entradas.forEach(({ target: video, isIntersecting }) => {
+    if (isIntersecting) {
+      if (!video.dataset.pausadoPelaPessoa) video.play().catch(() => {});
+    } else if (!video.paused) {
+      video.pause(); // pausa automática ao sair da tela (não conta como pausa da pessoa)
+    }
+  });
+}, { threshold: .25 });
+function tocarAoAparecer() {
+  if (!observaVideos || !autoplayLigado) return;
+  projEl.querySelectorAll(".proj-media video").forEach(v => observaVideos.observe(v));
+}
+
 // play / pause: um clique no botão (ou no próprio vídeo) alterna.
-// Só um vídeo toca por vez: dar play em um pausa os outros.
+// Se a pessoa pausar, o vídeo fica pausado (não volta a tocar sozinho ao rolar a página).
 projEl.addEventListener("click", e => {
   const box = e.target.closest(".proj-media");
   const video = box && box.querySelector("video");
   if (!video) return;
   if (video.paused) {
-    projEl.querySelectorAll(".proj-media video").forEach(v => { if (v !== video) v.pause(); });
+    delete video.dataset.pausadoPelaPessoa;
     video.play().catch(() => {});
   } else {
+    video.dataset.pausadoPelaPessoa = "1";
     video.pause();
   }
 });
