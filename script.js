@@ -102,6 +102,13 @@ const PROJECTS = [
     video: "media/maison-aurore.mp4", imagem: "media/maison-aurore.webp",
   },
   {
+    nome: "Aurum Hypercars", categoria: "front-end", exemplo: false,
+    descricao: "Site de carros hiperesportivos com carro 3D que se desmonta peça por peça conforme a rolagem, coleção de modelos e configurador em tempo real: cor, acabamentos, rodas, interior, vistas da câmera e abertura das portas.",
+    impacto: "",
+    tags: ["3D interativo", "WebGL", "Animação no scroll", "Configurador 3D"], preview: "", github: "",
+    video: "media/aurum-hypercars.mp4", imagem: "media/aurum-hypercars.webp",
+  },
+  {
     nome: "Cobrança Automática", categoria: "IA & automação", exemplo: false, privado: true,
     descricao: "Automação da cobrança de títulos em aberto: monitora o ERP todos os dias, aplica uma régua de 15 estágios e envia cada e-mail só depois de aprovado no Teams, com checagem de pagamento no momento do envio. Reduziu o tempo entre aprovação e envio de até 24 horas para poucos minutos.",
     impacto: "",
