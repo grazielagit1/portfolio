@@ -72,6 +72,24 @@ const PROJECTS = [
     tags: ["Python", "Azure Functions", "API OMIE", "Microsoft Teams", "SharePoint", "Microsoft Graph"], preview: "", github: "",
   },
   {
+    nome: "Automação de Pedidos de Compra", categoria: "IA & automação", exemplo: false, privado: true,
+    descricao: "Automação dos pedidos de compra da empresa, integrada ao ERP Omie, com os dados armazenados na nuvem Azure.",
+    impacto: "",
+    tags: ["Python", "API OMIE", "Microsoft Azure"], preview: "", github: "",
+  },
+  {
+    nome: "Automação de Envio de Cobrança", categoria: "IA & automação", exemplo: false, privado: true,
+    descricao: "Automação do envio de cobranças para os clientes, integrada ao ERP Omie, com os dados armazenados na nuvem Azure.",
+    impacto: "",
+    tags: ["Python", "API OMIE", "Microsoft Azure"], preview: "", github: "",
+  },
+  {
+    nome: "Automação de Follow-up de Entregas", categoria: "IA & automação", exemplo: false, privado: true,
+    descricao: "Automação do follow-up das entregas da empresa, integrada ao ERP Omie, com os dados armazenados na nuvem Azure.",
+    impacto: "",
+    tags: ["Python", "API OMIE", "Microsoft Azure"], preview: "", github: "",
+  },
+  {
     nome: "Loja de Jogos", categoria: "full stack", exemplo: false,
     descricao: "Loja de jogos para computador (como a Steam), com login, cadastro, painel do vendedor, compras e tela de análises, ligada a um banco MySQL.",
     impacto: "",
@@ -108,7 +126,18 @@ const filtersEl = document.getElementById("filters");
 const projEl = document.getElementById("projects");
 function renderProjects(cat) {
   filtersEl.querySelectorAll("button").forEach(b => b.setAttribute("aria-pressed", b.dataset.cat === cat));
-  projEl.innerHTML = PROJECTS.filter(p => cat === "todos" || p.categoria === cat).map(p => `
+  const lista = PROJECTS.filter(p => cat === "todos" || p.categoria === cat);
+  const temMidia = p => p.imagem || (p.imagens && p.imagens.length);
+  // duas faixas: primeiro os projetos com imagem, depois os sem imagem
+  projEl.innerHTML = [
+    rail(lista.filter(temMidia), "Projetos com imagem"),
+    rail(lista.filter(p => !temMidia(p)), "Outros projetos"),
+  ].join("");
+  projEl.querySelectorAll(".rail-track").forEach(updateRail);
+}
+
+function card(p) {
+  return `
     <article class="proj${p.imagem || p.imagens ? " has-media" : ""}">
       ${media(p)}
       <div class="proj-body">
@@ -118,14 +147,85 @@ function renderProjects(cat) {
         ${p.impacto ? `<p class="impact">${esc(p.impacto)}</p>` : ""}
         ${chips(p.tags)}
       </div>
-    </article>`).join("");
+    </article>`;
 }
+
+// faixa horizontal: mostra 3 cards por vez (2 no tablet, 1 no celular) e o resto
+// aparece arrastando para o lado, com o dedo, o mouse ou as setas
+function rail(lista, rotulo) {
+  if (!lista.length) return "";
+  return `
+    <div class="rail">
+      <div class="rail-track" tabindex="0" role="group" aria-roledescription="carrossel" aria-label="${esc(rotulo)}">${lista.map(card).join("")}</div>
+      <div class="rail-nav">
+        <button class="rail-btn" type="button" data-dir="-1" aria-label="Projetos anteriores">←</button>
+        <button class="rail-btn" type="button" data-dir="1" aria-label="Próximos projetos">→</button>
+      </div>
+    </div>`;
+}
+
+// liga/desliga as setas conforme a posição (e esconde se tudo couber na tela)
+function updateRail(track) {
+  const nav = track.parentElement.querySelector(".rail-nav");
+  const max = track.scrollWidth - track.clientWidth;
+  nav.hidden = max <= 2;
+  const [prev, next] = nav.querySelectorAll("button");
+  prev.disabled = track.scrollLeft <= 2;
+  next.disabled = track.scrollLeft >= max - 2;
+}
+const railStep = track => {
+  const c = track.querySelector(".proj");
+  return c ? c.offsetWidth + (parseFloat(getComputedStyle(track).columnGap) || 0) : track.clientWidth;
+};
+projEl.addEventListener("click", e => {
+  const b = e.target.closest(".rail-btn");
+  if (!b) return;
+  const track = b.closest(".rail").querySelector(".rail-track");
+  track.scrollBy({ left: Number(b.dataset.dir) * railStep(track), behavior: "smooth" });
+});
+projEl.addEventListener("scroll", e => {
+  if (e.target.classList && e.target.classList.contains("rail-track")) updateRail(e.target);
+}, true);
+projEl.addEventListener("keydown", e => {
+  if (!e.target.classList.contains("rail-track") || !["ArrowLeft", "ArrowRight"].includes(e.key)) return;
+  e.preventDefault();
+  e.target.scrollBy({ left: (e.key === "ArrowLeft" ? -1 : 1) * railStep(e.target), behavior: "smooth" });
+});
+addEventListener("resize", () => projEl.querySelectorAll(".rail-track").forEach(updateRail));
+
+// arrastar com o mouse (no celular o dedo já rola sozinho)
+let drag = null;
+projEl.addEventListener("pointerdown", e => {
+  const track = e.target.closest(".rail-track");
+  if (!track || e.pointerType !== "mouse" || e.button !== 0 || e.target.closest(".gallery, button, a")) return;
+  drag = { track, x: e.clientX, left: track.scrollLeft, moved: false };
+});
+addEventListener("pointermove", e => {
+  if (!drag) return;
+  const dx = e.clientX - drag.x;
+  if (!drag.moved && Math.abs(dx) > 5) {
+    drag.moved = true;
+    drag.track.classList.add("dragging");
+  }
+  if (drag.moved) drag.track.scrollLeft = drag.left - dx;
+});
+addEventListener("pointerup", () => {
+  if (!drag) return;
+  const { track, moved } = drag;
+  drag = null;
+  if (!moved) return;
+  track.classList.remove("dragging");
+  // encaixa no card mais próximo e evita que o arrasto vire um clique
+  const step = railStep(track);
+  track.scrollTo({ left: Math.round(track.scrollLeft / step) * step, behavior: "smooth" });
+  addEventListener("click", ev => ev.stopPropagation(), { capture: true, once: true });
+});
 
 // mídia do card: galeria de imagens ou uma imagem do site (só ilustrativa, sem link)
 function media(p) {
   if (p.imagens && p.imagens.length) return gallery(p);
   if (!p.imagem) return "";
-  return `<div class="proj-media"><img src="${esc(p.imagem)}" alt="${esc(`Página do projeto ${p.nome}`)}" loading="lazy"></div>`;
+  return `<div class="proj-media"><img src="${esc(p.imagem)}" alt="${esc(`Página do projeto ${p.nome}`)}" loading="lazy" draggable="false"></div>`;
 }
 
 // galeria: as imagens ficam lado a lado numa faixa que rola na horizontal.
