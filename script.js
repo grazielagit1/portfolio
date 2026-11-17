@@ -10,7 +10,7 @@ const JOBS = [
   {
     quando: "Atual", atual: true,
     cargo: "Estágio em Pesquisa & Desenvolvimento", empresa: "Netglobe",
-    descricao: "Pesquisa e desenvolvimento de soluções de software, incluindo análise de dados, automação de processos e integração de sistemas.",
+    descricao: "Desenvolvo automações e integrações para a operação da empresa: conecto o ERP Omie ao Microsoft Teams, ao SharePoint e ao Azure, crio APIs e analiso dados para eliminar processos manuais.",
     tags: ["Full Stack", "API REST", "Microsoft Azure"],
   },
 ];
@@ -32,7 +32,7 @@ const PROJECTS = [
   },
   {
     nome: "Site Refrigerantes", categoria: "front-end", exemplo: false,
-    descricao: "Vitrine de refrigerantes com três sabores (abacate, laranja e morango) em um carrossel com botões de avançar e voltar, que troca produto e visual a cada tela.",
+    descricao: "Vitrine de refrigerantes de abacate, laranja e morango. A cada clique no carrossel, mudam o produto e o visual da página inteira.",
     impacto: "",
     tags: ["HTML", "CSS", "JavaScript", "DOM"], preview: "https://refrigerantes-lovat.vercel.app/", github: "https://github.com/grazielagit1/site-refrigerantes",
     imagem: "media/refrigerantes-1.webp",
@@ -53,7 +53,7 @@ const PROJECTS = [
   },
   {
     nome: "Room Agent AI", categoria: "IA & automação", exemplo: false, privado: true,
-    descricao: "Inteligência operacional para salas Microsoft Teams Rooms: recebe os alertas do Teams Rooms Pro, registra incidentes, calcula a saúde de cada equipamento e recomenda ações por prioridade e risco, com foco em salas VIP.",
+    descricao: "Monitora as salas Microsoft Teams Rooms: recebe os alertas do Teams Rooms Pro, registra incidentes, dá uma nota de saúde a cada equipamento e indica o que resolver primeiro, com atenção especial às salas VIP.",
     impacto: "",
     tags: ["Python", "FastAPI", "Mistral AI", "SQLite", "Azure App Service", "Microsoft Graph", "Webhooks"], preview: "", github: "",
     imagem: "media/room-agent-1.webp",
@@ -91,13 +91,13 @@ const PROJECTS = [
   },
   {
     nome: "Loja de Jogos", categoria: "full stack", exemplo: false,
-    descricao: "Loja de jogos para computador (como a Steam), com login, cadastro, painel do vendedor, compras e tela de análises, ligada a um banco MySQL.",
+    descricao: "Loja de jogos para PC inspirada na Steam, com login e cadastro, painel do vendedor, compras e avaliações, tudo salvo em MySQL.",
     impacto: "",
     tags: ["Java", "Swing", "DAO", "MySQL"], github: "https://github.com/grazielagit1/APS4",
   },
   {
     nome: "Analisador de Gastos", categoria: "back-end", exemplo: false,
-    descricao: "Lê extratos em CSV ou PDF do seu banco, separa os gastos por categoria e gera uma planilha Excel com gráficos.",
+    descricao: "Lê extratos bancários em CSV ou PDF, separa os gastos por categoria e entrega uma planilha Excel com gráficos prontos.",
     impacto: "",
     tags: ["Python", "Pypdf", "Openpyxl", "Regex"], github: "https://github.com/grazielagit1/analisador-de-gastos",
   },
