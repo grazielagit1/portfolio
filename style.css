@@ -1084,3 +1084,56 @@ footer .wrap {
   }
 }
 
+
+
+/* ===== logo Foxify 3D (hero, à direita) ===== */
+.fox-badge {
+  --fox-bg: #353535;
+  --fox-pink: #f27fd0;
+  position: relative;
+  justify-self: center;
+  width: min(420px, 100%);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(circle at 50% 40%, #444 0%, var(--fox-bg) 62%);
+  box-shadow: inset 0 0 0 clamp(8px, 2.2vw, 14px) var(--fox-bg),
+              inset 0 0 0 clamp(11px, 2.8vw, 18px) #fff,
+              0 30px 60px -30px rgba(30, 20, 10, .45);
+  overflow: hidden;
+}
+
+.fox-canvas {
+  position: absolute;
+  inset: 6% 6% 20%;
+  cursor: grab;
+  touch-action: pan-y;
+}
+
+.fox-canvas:active { cursor: grabbing; }
+
+.fox-canvas canvas {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.fox-word {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 13%;
+  margin: 0;
+  text-align: center;
+  color: #fff;
+  font: 500 clamp(1.1rem, 4.4vw, 1.7rem)/1 "Jost", system-ui, sans-serif;
+  letter-spacing: .02em;
+  transform: scaleY(1.35);
+  pointer-events: none;
+}
+
+.fox-word span { font-weight: 300; margin-inline: .2em; }
+.fox-word i { color: var(--fox-pink); font-style: normal; display: inline-block; transform: skewX(-14deg); margin-inline: .05em; }
+
+@media (max-width: 900px) {
+  .fox-badge { width: min(340px, 100%); justify-self: start; }
+}
