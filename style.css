@@ -260,15 +260,26 @@ h1 .last {
   font-weight: 500;
 }
 
-/* entrada suave: palavras surgem uma a uma, subindo e saindo do desfoque */
-.js .hero-text:not(.split) {
+/* entrada suave: palavras surgem uma a uma, subindo e saindo do desfoque.
+   O conteúdo fica oculto só até o script preparar as palavras (com reserva de 2s). */
+.js:not(.rv-ready) main {
+  opacity: 0;
+  animation: rv-fallback 0s 2s forwards;
+}
+
+@keyframes rv-fallback {
+  to { opacity: 1; }
+}
+
+.rv .w {
+  display: inline-block;
   opacity: 0;
 }
 
-.hero-text .w {
-  display: inline-block;
+.rv.in .w {
+  opacity: 1;
   animation: word-in 1.2s cubic-bezier(.22, 1, .36, 1) both;
-  animation-delay: calc(300ms + var(--i) * 80ms);
+  animation-delay: calc(250ms + var(--base, 0ms) + var(--i) * var(--step, 70ms));
 }
 
 @keyframes word-in {

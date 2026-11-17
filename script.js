@@ -1,9 +1,16 @@
-/* entrada suave do topo: cada palavra ganha um atraso próprio (--i) */
-(() => {
-  const hero = document.querySelector(".hero-text");
-  if (!hero) return;
+/* entrada suave dos textos: cada palavra surge em sequência quando o bloco aparece na tela */
+const REVEAL = [
+  ".hero-text > *", ".sec-label", ".block h2", ".about p", ".facts dt", ".facts dd",
+  ".stack-group h3", ".chips li", ".job-when", ".job h3", ".where", ".job p",
+  ".filters button", ".proj .tag", ".proj h3", ".proj p", ".contact p", ".mail", ".socials a",
+  "footer span",
+].join(",");
+const revealOff = matchMedia("(prefers-reduced-motion: reduce)").matches || !("IntersectionObserver" in window);
+
+// troca cada palavra de texto por <span class="w" style="--i:n"> e devolve quantas foram
+function splitWords(el) {
   let i = 0;
-  const split = el => [...el.childNodes].forEach(n => {
+  const walk = node => [...node.childNodes].forEach(n => {
     if (n.nodeType === 3) {
       const frag = document.createDocumentFragment();
       n.textContent.split(/(\s+)/).forEach(p => {
@@ -16,11 +23,33 @@
         frag.append(w);
       });
       n.replaceWith(frag);
-    } else if (n.nodeType === 1 && n.tagName !== "BR") split(n);
+    } else if (n.nodeType === 1 && n.tagName !== "BR" && !n.classList.contains("w")) walk(n);
   });
-  [...hero.children].forEach(split);
-  hero.classList.add("split");
-})();
+  walk(el);
+  return i;
+}
+
+// blocos que entram juntos na tela aparecem um depois do outro
+const revealIO = revealOff ? null : new IntersectionObserver(entries => {
+  let base = 0;
+  entries.filter(e => e.isIntersecting).forEach(({ target }) => {
+    target.style.setProperty("--base", `${base}ms`);
+    target.classList.add("in");
+    revealIO.unobserve(target);
+    base = Math.min(base + 110, 1400);
+  });
+}, { rootMargin: "0px 0px -6% 0px" });
+
+function reveal(root = document) {
+  if (revealOff) return;
+  root.querySelectorAll(REVEAL).forEach(el => {
+    if (el.classList.contains("rv")) return;
+    const n = splitWords(el);
+    el.style.setProperty("--step", `${Math.min(70, 900 / Math.max(n, 1))}ms`);
+    el.classList.add("rv");
+    revealIO.observe(el);
+  });
+}
 
 /* ==== EDITE AQUI: todo o conteúdo do portfólio ==== */
 const STACK = [
@@ -158,6 +187,7 @@ function renderProjects(cat) {
     rail(lista.filter(p => !temMidia(p)), "Outros projetos"),
   ].join("");
   projEl.querySelectorAll(".rail-track").forEach(updateRail);
+  reveal(projEl);
 }
 
 function card(p) {
@@ -342,6 +372,8 @@ projEl.addEventListener("scroll", e => {
 filtersEl.innerHTML = cats.map(c => `<button type="button" data-cat="${esc(c)}" id="f-${esc(c).replace(/\s/g, "-")}">${esc(c)}</button>`).join("");
 filtersEl.addEventListener("click", e => { const b = e.target.closest("button"); if (b) renderProjects(b.dataset.cat); });
 renderProjects("todos");
+reveal();
+document.documentElement.classList.add("rv-ready");
 
 document.getElementById("copyBtn").addEventListener("click", async e => {
   const text = document.getElementById("email").textContent;
