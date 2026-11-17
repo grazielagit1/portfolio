@@ -1,3 +1,27 @@
+/* entrada suave do topo: cada palavra ganha um atraso próprio (--i) */
+(() => {
+  const hero = document.querySelector(".hero-text");
+  if (!hero) return;
+  let i = 0;
+  const split = el => [...el.childNodes].forEach(n => {
+    if (n.nodeType === 3) {
+      const frag = document.createDocumentFragment();
+      n.textContent.split(/(\s+)/).forEach(p => {
+        if (!p) return;
+        if (!p.trim()) return frag.append(p);
+        const w = document.createElement("span");
+        w.className = "w";
+        w.style.setProperty("--i", i++);
+        w.textContent = p;
+        frag.append(w);
+      });
+      n.replaceWith(frag);
+    } else if (n.nodeType === 1 && n.tagName !== "BR") split(n);
+  });
+  [...hero.children].forEach(split);
+  hero.classList.add("split");
+})();
+
 /* ==== EDITE AQUI: todo o conteúdo do portfólio ==== */
 const STACK = [
   { grupo: "Front-end", itens: ["JavaScript", "HTML5", "CSS3", "Tailwind CSS"] },

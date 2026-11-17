@@ -260,6 +260,37 @@ h1 .last {
   font-weight: 500;
 }
 
+/* entrada suave: palavras surgem uma a uma, subindo e saindo do desfoque */
+.js .hero-text:not(.split) {
+  opacity: 0;
+}
+
+.hero-text .w {
+  display: inline-block;
+  animation: word-in 1.2s cubic-bezier(.22, 1, .36, 1) both;
+  animation-delay: calc(300ms + var(--i) * 80ms);
+}
+
+@keyframes word-in {
+  from {
+    opacity: 0;
+    transform: translateY(.35em);
+    filter: blur(8px);
+  }
+}
+
+.fox-badge {
+  animation: badge-in 1.8s cubic-bezier(.22, 1, .36, 1) .7s both;
+}
+
+@keyframes badge-in {
+  from {
+    opacity: 0;
+    transform: scale(.94);
+    filter: blur(6px);
+  }
+}
+
 .btn {
   font: 400 .88rem var(--f-mono);
   padding: 12px 18px;
