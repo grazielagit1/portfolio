@@ -413,13 +413,13 @@ if (!reduced && finePointer) {
         gl_PointSize = aTam * uEscala / -mv.z;
         vAlfa = aAlfa * uForca * (.75 + .25 * sin(uTempo * 1.3 + aFase)); // cada ponto "cintila" de leve
       }`,
-    // fragment shader: desenha cada ponto como um círculo branco de borda suave
+    // fragment shader: desenha cada ponto como um círculo preto de borda suave
     fragmentShader: `
       varying float vAlfa;
       void main() {
         float d = length(gl_PointCoord - .5);
         if (d > .5) discard;
-        gl_FragColor = vec4(1., 1., 1., vAlfa * smoothstep(.5, .35, d));
+        gl_FragColor = vec4(.08, .075, .066, vAlfa * smoothstep(.5, .35, d)); // pontos pretos sobre o creme
       }`,
   }));
   const grupo = new THREE.Group();
