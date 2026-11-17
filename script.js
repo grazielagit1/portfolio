@@ -109,7 +109,7 @@ const projEl = document.getElementById("projects");
 function renderProjects(cat) {
   filtersEl.querySelectorAll("button").forEach(b => b.setAttribute("aria-pressed", b.dataset.cat === cat));
   projEl.innerHTML = PROJECTS.filter(p => cat === "todos" || p.categoria === cat).map(p => `
-    <article class="proj${p.imagem || p.imagens ? " has-media" : ""}">
+    <article class="proj${p.imagem ? " has-media" : ""}">
       ${media(p)}
       <div class="proj-body">
         <span class="tag">${esc(p.categoria)}</span>
@@ -121,99 +121,11 @@ function renderProjects(cat) {
     </article>`).join("");
 }
 
-// mídia do card: galeria de imagens ou uma imagem do site (só ilustrativa, sem link)
+// imagem do card: uma captura do site (só ilustrativa, sem link)
 function media(p) {
-  if (p.imagens && p.imagens.length) return gallery(p);
   if (!p.imagem) return "";
   return `<div class="proj-media"><img src="${esc(p.imagem)}" alt="${esc(`Página do projeto ${p.nome}`)}" loading="lazy"></div>`;
 }
-
-// galeria: as imagens ficam lado a lado numa faixa que rola na horizontal.
-// Setas e bolinhas rolam a faixa; no celular dá para deslizar com o dedo.
-function gallery(p) {
-  const total = p.imagens.length;
-  const imgs = p.imagens.map((src, i) =>
-    `<img src="${esc(src)}" alt="${esc(p.nome)}: imagem ${i + 1} de ${total}" ${i ? 'loading="lazy"' : ""} draggable="false">`).join("");
-  const dots = p.imagens.map((_, i) =>
-    `<button class="gal-dot" type="button" data-go="${i}" aria-label="Ver imagem ${i + 1}"${i ? "" : ' aria-current="true"'}></button>`).join("");
-  return `
-    <div class="proj-media gallery">
-      <div class="gal-track" tabindex="0" role="group" aria-roledescription="carrossel" aria-label="Imagens do projeto ${esc(p.nome)}">${imgs}</div>
-      <button class="gal-btn prev" type="button" data-step="-1" aria-label="Imagem anterior"></button>
-      <button class="gal-btn next" type="button" data-step="1" aria-label="Próxima imagem"></button>
-      <div class="gal-dots">${dots}</div>
-    </div>`;
-}
-
-// setas e bolinhas: calcula a imagem de destino e rola até ela (dá a volta no fim e no começo)
-projEl.addEventListener("click", e => {
-  const btn = e.target.closest(".gal-btn, .gal-dot");
-  if (!btn) return;
-  const track = btn.closest(".gallery").querySelector(".gal-track");
-  const total = track.children.length;
-  const atual = Math.round(track.scrollLeft / track.clientWidth);
-  const alvo = btn.dataset.go !== undefined
-    ? Number(btn.dataset.go)
-    : (atual + Number(btn.dataset.step) + total) % total;
-  track.scrollTo({ left: alvo * track.clientWidth });
-  markDot(track, alvo);
-});
-// visualização ampliada: clicar numa imagem da galeria abre ela em tela cheia, no tamanho real
-const lightbox = document.createElement("dialog");
-lightbox.className = "lightbox";
-lightbox.setAttribute("aria-label", "Imagem ampliada");
-lightbox.innerHTML = `
-  <figure>
-    <img alt="">
-    <figcaption><span class="lb-title"></span><span class="lb-count"></span></figcaption>
-  </figure>
-  <button class="lb-btn lb-close" type="button" aria-label="Fechar"></button>
-  <button class="lb-btn lb-prev gal-btn prev" type="button" aria-label="Imagem anterior"></button>
-  <button class="lb-btn lb-next gal-btn next" type="button" aria-label="Próxima imagem"></button>`;
-document.body.append(lightbox);
-let lbFotos = [], lbAtual = 0, lbNome = "";
-function lbMostrar(i) {
-  lbAtual = (i + lbFotos.length) % lbFotos.length;
-  const img = lightbox.querySelector("img");
-  img.src = lbFotos[lbAtual];
-  img.alt = `${lbNome}: imagem ${lbAtual + 1} de ${lbFotos.length}`;
-  lightbox.querySelector(".lb-title").textContent = lbNome;
-  lightbox.querySelector(".lb-count").textContent = `${lbAtual + 1} / ${lbFotos.length}`;
-}
-projEl.addEventListener("click", e => {
-  const img = e.target.closest(".gal-track img");
-  if (!img) return;
-  const track = img.parentElement;
-  lbFotos = [...track.children].map(i => i.getAttribute("src"));
-  lbNome = img.closest(".proj").querySelector("h3").textContent;
-  lbMostrar([...track.children].indexOf(img));
-  lightbox.showModal();
-});
-lightbox.addEventListener("click", e => {
-  if (e.target.closest(".lb-prev")) lbMostrar(lbAtual - 1);
-  else if (e.target.closest(".lb-next")) lbMostrar(lbAtual + 1);
-  else if (e.target.closest(".lb-close") || e.target === lightbox) lightbox.close(); // clicar fora da imagem também fecha
-});
-lightbox.addEventListener("keydown", e => {
-  if (e.key === "ArrowLeft") lbMostrar(lbAtual - 1);
-  if (e.key === "ArrowRight") lbMostrar(lbAtual + 1);
-});
-
-function markDot(track, atual) {
-  track.closest(".gallery").querySelectorAll(".gal-dot").forEach((d, i) => d.toggleAttribute("aria-current", i === atual));
-}
-// setas do teclado quando a galeria está em foco
-projEl.addEventListener("keydown", e => {
-  if (!e.target.classList.contains("gal-track") || !["ArrowLeft", "ArrowRight"].includes(e.key)) return;
-  e.preventDefault();
-  e.target.closest(".gallery").querySelector(e.key === "ArrowLeft" ? ".prev" : ".next").click();
-});
-// ao rolar (pelas setas ou com o dedo), acende a bolinha da imagem que está aparecendo
-projEl.addEventListener("scroll", e => {
-  const track = e.target;
-  if (!track.classList || !track.classList.contains("gal-track")) return;
-  markDot(track, Math.round(track.scrollLeft / track.clientWidth));
-}, true);
 
 filtersEl.innerHTML = cats.map(c => `<button type="button" data-cat="${esc(c)}" id="f-${esc(c).replace(/\s/g, "-")}">${esc(c)}</button>`).join("");
 filtersEl.addEventListener("click", e => { const b = e.target.closest("button"); if (b) renderProjects(b.dataset.cat); });
