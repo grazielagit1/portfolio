@@ -516,16 +516,6 @@ h3 {
   min-width: 0;
 }
 
-.dot {
-  display: inline-block;
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--accent);
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 15%, transparent);
-  margin-right: 6px;
-}
-
 /* stack */
 .stack {
   display: grid;
