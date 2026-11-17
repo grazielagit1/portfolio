@@ -1089,17 +1089,25 @@ footer .wrap {
 /* ===== logo Foxify 3D (hero, à direita) ===== */
 .fox-badge {
   --fox-bg: #f27fd0;
-  --fox-pink: #f27fd0;
   position: relative;
   justify-self: center;
-  width: min(420px, 100%);
+  width: min(210px, 100%);
   aspect-ratio: 1;
   border-radius: 50%;
   background: radial-gradient(circle at 50% 40%, #f799dc 0%, var(--fox-bg) 62%);
-  box-shadow: inset 0 0 0 clamp(8px, 2.2vw, 14px) var(--fox-bg),
-              inset 0 0 0 clamp(11px, 2.8vw, 18px) #fff,
-              0 30px 60px -30px rgba(30, 20, 10, .45);
+  box-shadow: 0 20px 40px -22px rgba(30, 20, 10, .45);
   overflow: hidden;
+  container-type: inline-size; /* textos e anel acompanham o tamanho do selo */
+}
+
+/* anel branco interno */
+.fox-badge::before {
+  content: "";
+  position: absolute;
+  inset: 3.3cqw;
+  border: max(1.5px, .9cqw) solid #fff;
+  border-radius: 50%;
+  pointer-events: none;
 }
 
 .fox-canvas {
@@ -1125,7 +1133,7 @@ footer .wrap {
   margin: 0;
   text-align: center;
   color: #fff;
-  font: 500 clamp(1.1rem, 4.4vw, 1.7rem)/1 "Jost", system-ui, sans-serif;
+  font: 500 6.5cqw/1 "Jost", system-ui, sans-serif;
   letter-spacing: .02em;
   transform: scaleY(1.35);
   pointer-events: none;
@@ -1134,6 +1142,29 @@ footer .wrap {
 .fox-word span { font-weight: 300; margin-inline: .2em; }
 .fox-word i { color: #111; font-style: normal; display: inline-block; transform: skewX(-14deg); margin-inline: .05em; }
 
+/* tablet em pé e celular: o selo fica ao lado do nome, não abaixo */
 @media (max-width: 900px) {
-  .fox-badge { width: min(340px, 100%); justify-self: start; }
+  .hero-grid {
+    grid-template-columns: 1fr auto;
+    grid-template-areas:
+      "eyebrow eyebrow"
+      "name    badge"
+      "lead    lead";
+    column-gap: 12px;
+    row-gap: 0;
+    align-items: center;
+  }
+
+  .hero-text { display: contents; }
+  .hero-text .eyebrow { grid-area: eyebrow; }
+  .hero-text h1 { grid-area: name; }
+  .hero-text .lead { grid-area: lead; }
+
+  .fox-badge {
+    grid-area: badge;
+    width: clamp(96px, 30vw, 200px);
+    justify-self: end;
+    align-self: center;
+    margin-bottom: 22px; /* mesmo respiro do h1, para centralizar com o nome */
+  }
 }
