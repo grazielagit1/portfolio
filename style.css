@@ -97,7 +97,8 @@ header.nav {
 }
 
 .logo {
-  font: 400 .95rem var(--f-mono);
+  font: italic 500 1.55rem/1 var(--f-display);
+  letter-spacing: .01em;
   text-decoration: none;
 }
 
@@ -112,7 +113,8 @@ header.nav {
   list-style: none;
   margin: 0;
   padding: 0;
-  font: 300 .82rem var(--f-mono);
+  font: 400 1.12rem var(--f-display);
+  letter-spacing: .02em;
 }
 
 .nav ul a {
@@ -1242,4 +1244,11 @@ footer .wrap {
   display: block;
   width: 100% !important;
   height: 100% !important;
+}
+
+/* botão "Contato" do topo com a mesma fonte elegante do menu */
+.nav .btn.primary {
+  font: 500 1.05rem/1 var(--f-display);
+  letter-spacing: .03em;
+  padding: 12px 20px;
 }
