@@ -3,9 +3,11 @@
 :root {
   --bg: #f3eee3;
   /* creme */
-  --bg-2: #faf7f0;
-  /* superfícies (cards) um tom mais claro que o fundo */
-  --line: #d9d1c1;
+  --bg-2: #f6f1e8;
+  /* superfícies (cards): só um sopro mais claro que o fundo, sem branco forte */
+  --line: #e3dccf;
+  /* bordas finas e suaves */
+  --soft-shadow: 0 1px 2px rgba(60, 45, 25, .03), 0 14px 34px -24px rgba(60, 45, 25, .14);
   --fg: #151311;
   /* preto quente */
   --muted: #6b665e;
@@ -19,9 +21,9 @@
   --accent-ink: #f3eee3;
   /* texto sobre preenchimento preto */
   --glow: rgba(120, 100, 70, .07);
-  --f-display: "Fraunces", Georgia, "Times New Roman", serif;
-  --f-body: "Nunito", "Segoe UI", system-ui, sans-serif;
-  --f-mono: "Fira Code", ui-monospace, Consolas, monospace;
+  --f-display: "Cormorant Garamond", Garamond, Georgia, serif;
+  --f-body: "Jost", "Segoe UI", system-ui, sans-serif;
+  --f-mono: "DM Mono", ui-monospace, Consolas, monospace;
   color-scheme: light;
 }
 
@@ -57,7 +59,7 @@ body {
   margin: 0;
   background: var(--bg);
   color: var(--fg);
-  font: 400 1rem/1.65 var(--f-body);
+  font: 300 1rem/1.7 var(--f-body);
 }
 
 a {
@@ -95,7 +97,7 @@ header.nav {
 }
 
 .logo {
-  font: 500 .95rem var(--f-mono);
+  font: 400 .95rem var(--f-mono);
   text-decoration: none;
 }
 
@@ -110,7 +112,7 @@ header.nav {
   list-style: none;
   margin: 0;
   padding: 0;
-  font: .82rem var(--f-mono);
+  font: 300 .82rem var(--f-mono);
 }
 
 .nav ul a {
@@ -225,16 +227,15 @@ header.nav {
 }
 
 .eyebrow {
-  font: .8rem var(--f-mono);
+  font: 300 .8rem var(--f-mono);
   color: var(--muted);
   letter-spacing: .04em;
   margin: 0 0 18px;
 }
 
 h1 {
-  font: 500 clamp(3rem, 8.5vw, 6rem)/.95 var(--f-display);
+  font: 300 clamp(3.4rem, 9.5vw, 6.8rem)/.95 var(--f-display);
   letter-spacing: -.02em;
-  font-variation-settings: "SOFT" 100;
   margin: 0 0 22px;
   text-wrap: balance;
 }
@@ -254,7 +255,7 @@ h1 .last {
 
 .lead strong {
   color: var(--fg);
-  font-weight: 600;
+  font-weight: 500;
 }
 
 .ctas {
@@ -264,7 +265,7 @@ h1 .last {
 }
 
 .btn {
-  font: 500 .88rem var(--f-mono);
+  font: 400 .88rem var(--f-mono);
   padding: 12px 18px;
   border-radius: 8px;
   text-decoration: none;
@@ -288,15 +289,6 @@ h1 .last {
 
 .btn.primary:hover {
   background: color-mix(in srgb, var(--wine) 80%, var(--accent));
-}
-
-#scene {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: 0;
 }
 
 .hero {
@@ -349,7 +341,7 @@ h1 .last {
   border-radius: 10px;
   background: var(--bg-2);
   border: 1px solid var(--line);
-  font: .76rem var(--f-mono);
+  font: 300 .76rem var(--f-mono);
   box-shadow: 0 18px 30px -18px rgba(60, 45, 25, .25);
   white-space: nowrap;
 }
@@ -405,7 +397,7 @@ h1 .last {
   gap: 7px;
   padding: 12px 14px;
   border-bottom: 1px solid var(--line);
-  font: .75rem var(--f-mono);
+  font: 300 .75rem var(--f-mono);
   color: var(--muted);
 }
 
@@ -423,7 +415,7 @@ h1 .last {
 .code pre {
   margin: 0;
   padding: 20px 22px;
-  font: .86rem/1.8 var(--f-mono);
+  font: 300 .86rem/1.8 var(--f-mono);
   overflow-x: auto;
 }
 
@@ -462,23 +454,21 @@ section.block {
 }
 
 .sec-label {
-  font: .8rem var(--f-mono);
+  font: 300 .8rem var(--f-mono);
   color: var(--muted);
   margin: 0 0 10px;
 }
 
 h2 {
-  font: 500 clamp(1.9rem, 4vw, 2.8rem)/1.1 var(--f-display);
+  font: 400 clamp(2.2rem, 4.6vw, 3.2rem)/1.1 var(--f-display);
   letter-spacing: -.01em;
-  font-variation-settings: "SOFT" 100;
   margin: 0 0 28px;
   text-wrap: balance;
 }
 
 h3 {
-  font: 600 1.25rem/1.25 var(--f-display);
+  font: 500 1.5rem/1.2 var(--f-display);
   margin: 0;
-  font-variation-settings: "SOFT" 100;
 }
 
 .about {
@@ -502,10 +492,11 @@ h3 {
   margin: 0;
   display: grid;
   gap: 0;
-  font: .88rem var(--f-mono);
+  font: 300 .88rem var(--f-mono);
   border: 1px solid var(--line);
-  border-radius: 12px;
+  border-radius: 18px;
   background: var(--bg-2);
+  box-shadow: var(--soft-shadow);
 }
 
 .facts div {
@@ -548,13 +539,14 @@ h3 {
 
 .stack-group {
   border: 1px solid var(--line);
-  border-radius: 12px;
-  padding: 18px;
+  border-radius: 18px;
+  padding: 22px;
   background: var(--bg-2);
+  box-shadow: var(--soft-shadow);
 }
 
 .stack-group h3 {
-  font: 500 .8rem var(--f-mono);
+  font: 400 .8rem var(--f-mono);
   color: var(--muted);
   margin-bottom: 12px;
 }
@@ -569,7 +561,7 @@ h3 {
 }
 
 .chips li {
-  font: .8rem var(--f-mono);
+  font: 300 .8rem var(--f-mono);
   padding: 5px 10px;
   border-radius: 999px;
   border: 1px solid var(--line);
@@ -604,7 +596,7 @@ h3 {
 }
 
 .job-when {
-  font: .82rem var(--f-mono);
+  font: 300 .82rem var(--f-mono);
   color: var(--muted);
 }
 
@@ -636,7 +628,7 @@ h3 {
 }
 
 .filters button {
-  font: .8rem var(--f-mono);
+  font: 300 .8rem var(--f-mono);
   padding: 7px 14px;
   border-radius: 999px;
   border: 1px solid var(--line);
@@ -651,15 +643,43 @@ h3 {
   color: var(--accent-ink);
 }
 
+/* 3 cards por linha (2 no tablet, 1 no celular); a última linha fica centralizada,
+   para um card sobrando não ficar sozinho num canto */
 .projects {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(min(300px, 100%), 1fr));
-  gap: 18px;
+  --gap: 18px;
+  --cols: 3;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--gap);
 }
 
-@media (max-width: 400px) {
+.projects > .proj {
+  flex: 0 0 calc((100% - (var(--cols) - 1) * var(--gap)) / var(--cols));
+  min-width: 0;
+}
+
+/* os projetos sem imagem vão sempre para depois dos que têm imagem */
+.projects > .proj:not(.has-media) {
+  order: 1;
+}
+
+/* quebra de linha invisível entre os dois grupos: os sem imagem começam sempre numa fileira nova */
+.projects::after {
+  content: "";
+  flex: 0 0 100%;
+  height: 0; /* cria um respiro um pouco maior entre os dois grupos */
+}
+
+@media (max-width: 960px) {
   .projects {
-    grid-template-columns: 1fr;
+    --cols: 2;
+  }
+}
+
+@media (max-width: 620px) {
+  .projects {
+    --cols: 1;
   }
 }
 
@@ -667,8 +687,9 @@ h3 {
   display: flex;
   flex-direction: column;
   border: 1px solid var(--line);
-  border-radius: 14px;
+  border-radius: 18px;
   background: var(--bg-2);
+  box-shadow: var(--soft-shadow);
   overflow: hidden;
   transition: border-color .2s, transform .2s;
 }
@@ -682,7 +703,7 @@ h3 {
   min-width: 0;
 }
 
-/* vídeo ou imagem no topo do card */
+/* imagem no topo do card */
 .proj-media {
   display: block;
   position: relative;
@@ -693,7 +714,6 @@ h3 {
   overflow: hidden;
 }
 
-.proj-media video,
 .proj-media img {
   display: block;
   width: 100%;
@@ -703,7 +723,6 @@ h3 {
   transition: transform .5s ease;
 }
 
-.proj:hover .proj-media video,
 .proj:hover .proj-media img {
   transform: scale(1.04);
 }
@@ -864,7 +883,7 @@ h3 {
   justify-content: space-between;
   gap: 16px;
   padding: 12px 16px;
-  font: .8rem var(--f-mono);
+  font: 300 .8rem var(--f-mono);
   color: var(--muted);
 }
 
@@ -929,73 +948,6 @@ h3 {
   }
 }
 
-/* botão de play/pause sobre o vídeo */
-.proj-media:has(video) {
-  cursor: pointer;
-}
-
-.play-btn {
-  position: absolute;
-  inset: 50% auto auto 50%;
-  z-index: 1;
-  display: grid;
-  place-items: center;
-  width: 62px;
-  height: 62px;
-  margin: -31px 0 0 -31px;
-  border: 1px solid color-mix(in srgb, var(--accent) 60%, transparent);
-  border-radius: 50%;
-  background: color-mix(in srgb, var(--wine) 85%, transparent);
-  box-shadow: 0 10px 30px -8px rgba(60, 45, 25, .35);
-  backdrop-filter: blur(4px);
-  cursor: pointer;
-  transition: transform .2s, opacity .25s, background .2s;
-}
-
-.play-btn:hover {
-  transform: scale(1.08);
-  background: var(--wine);
-}
-
-/* triângulo de play */
-.play-icon {
-  width: 0;
-  height: 0;
-  margin-left: 4px;
-  border-style: solid;
-  border-width: 11px 0 11px 18px;
-  border-color: transparent transparent transparent var(--accent-ink);
-}
-
-/* tocando: o ícone vira pausa (duas barras) e o botão some até passar o mouse */
-.proj-media.playing .play-icon {
-  width: 16px;
-  height: 20px;
-  margin-left: 0;
-  border: 0;
-  border-left: 5px solid var(--accent-ink);
-  border-right: 5px solid var(--accent-ink);
-}
-
-.proj-media.playing .play-btn {
-  opacity: 0;
-}
-
-.proj-media.playing:hover .play-btn,
-.proj-media.playing .play-btn:focus-visible {
-  opacity: 1;
-}
-
-/* no celular não existe "passar o mouse": o botão de pausa fica sempre visível, menor */
-@media (hover: none) {
-  .proj-media.playing .play-btn {
-    opacity: .85;
-    width: 44px;
-    height: 44px;
-    margin: -22px 0 0 -22px;
-  }
-}
-
 /* leve degradê embaixo, para a mídia "encostar" no card */
 .proj-media::after {
   content: "";
@@ -1012,7 +964,7 @@ h3 {
 }
 
 .proj .tag {
-  font: .72rem var(--f-mono);
+  font: 300 .72rem var(--f-mono);
   color: var(--muted);
   letter-spacing: .06em;
   text-transform: uppercase;
@@ -1035,7 +987,7 @@ h3 {
   margin-top: auto;
   display: flex;
   gap: 16px;
-  font: .8rem var(--f-mono);
+  font: 300 .8rem var(--f-mono);
 }
 
 .proj .links a {
@@ -1052,13 +1004,119 @@ h3 {
 }
 
 .example {
-  font: .7rem var(--f-mono);
+  font: 300 .7rem var(--f-mono);
   color: var(--muted);
   border: 1px dashed var(--line);
   border-radius: 4px;
   padding: 1px 6px;
   margin-left: 6px;
   vertical-align: 2px;
+}
+
+/* ---- cards com imagem: a foto ocupa o card inteiro e o texto fica por cima ----
+   O nome aparece sempre sobre um degradê escuro; a descrição e as tags surgem ao passar o mouse.
+   No celular (sem mouse) o texto fica sempre visível. */
+.proj.has-media {
+  position: relative;
+  display: grid;
+  align-content: end;
+  aspect-ratio: 4 / 3;      /* tamanho mínimo; cresce se o texto precisar */
+  border: 0;
+  background: var(--fg);
+  isolation: isolate;
+}
+
+.proj.has-media .proj-media {
+  position: absolute;
+  inset: 0;
+  aspect-ratio: auto;
+  border: 0;
+  z-index: -1;
+}
+
+.proj.has-media .proj-media::after {
+  display: none;
+}
+
+.proj.has-media .proj-body {
+  flex: none;
+  gap: 0;
+  padding: 90px 24px 22px;
+  color: var(--accent-ink);
+  background: linear-gradient(to top, rgba(21, 19, 17, .92) 0%, rgba(21, 19, 17, .78) 45%, rgba(21, 19, 17, .35) 75%, transparent 100%);
+  pointer-events: none;     /* deixa clicar na galeria e nas setas por baixo do texto */
+}
+
+.proj.has-media .tag {
+  color: color-mix(in srgb, var(--accent-ink) 70%, transparent);
+  margin-bottom: 4px;
+}
+
+.proj.has-media h3 {
+  margin: 0;
+  color: var(--accent-ink);
+  font-size: 1.7rem;
+}
+
+/* nos cards com imagem a descrição não aparece: ao passar o mouse surgem só as skills */
+.proj.has-media p {
+  display: none;
+}
+
+.proj.has-media .chips {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: max-height .5s ease, opacity .35s ease, margin .5s ease;
+}
+
+.proj.has-media .chips li {
+  border-color: color-mix(in srgb, var(--accent-ink) 35%, transparent);
+  color: var(--accent-ink);
+}
+
+.proj.has-media:hover .chips,
+.proj.has-media:focus-within .chips {
+  max-height: 14em;
+  opacity: 1;
+  margin-top: 10px;
+}
+
+.proj.has-media:hover {
+  transform: translateY(-3px);
+}
+
+/* a imagem escurece um pouco ao passar o mouse, para o texto ler bem */
+.proj.has-media .proj-media img {
+  transition: transform .6s ease, filter .4s ease;
+}
+
+.proj.has-media:hover .proj-media img {
+  filter: brightness(.8);
+}
+
+/* na galeria, as bolinhas vão para o topo para não ficar embaixo do texto */
+.proj.has-media .gal-dots {
+  top: 14px;
+  bottom: auto;
+}
+
+/* bolinhas claras com sombra leve: aparecem tanto nas imagens escuras quanto nas claras */
+.proj.has-media .gal-dot {
+  background: color-mix(in srgb, var(--accent-ink) 55%, transparent);
+  box-shadow: 0 0 0 1px rgba(21, 19, 17, .25), 0 1px 4px rgba(21, 19, 17, .35);
+}
+
+.proj.has-media .gal-dot[aria-current] {
+  background: var(--accent-ink);
+}
+
+@media (hover: none) {
+  .proj.has-media .chips {
+    max-height: none;
+    opacity: 1;
+    margin-top: 10px;
+  }
 }
 
 /* contact */
@@ -1088,9 +1146,10 @@ h3 {
   gap: 10px;
   padding: 16px 18px;
   border: 1px solid var(--line);
-  border-radius: 12px;
+  border-radius: 18px;
   background: var(--bg-2);
-  font: .95rem var(--f-mono);
+  box-shadow: var(--soft-shadow);
+  font: 300 .95rem var(--f-mono);
 }
 
 .mail span {
@@ -1115,7 +1174,7 @@ h3 {
   border: 1px solid var(--line);
   border-radius: 10px;
   text-decoration: none;
-  font: .9rem var(--f-mono);
+  font: 300 .9rem var(--f-mono);
 }
 
 .socials a:hover {
@@ -1126,7 +1185,7 @@ h3 {
 footer {
   border-top: 1px solid var(--line);
   padding-block: 28px;
-  font: .78rem var(--f-mono);
+  font: 300 .78rem var(--f-mono);
   color: var(--muted);
 }
 
@@ -1227,7 +1286,7 @@ footer .wrap {
   }
 
   .projects {
-    gap: 14px;
+    --gap: 14px;
   }
 
   .proj-body {
@@ -1315,8 +1374,7 @@ footer .wrap {
   text-align: center;
   text-transform: uppercase;
   text-wrap: balance;
-  font: 300 clamp(1.5rem, 4.2vw, 3.3rem)/1.25 var(--f-display);
-  font-variation-settings: "SOFT" 100;
+  font: 300 clamp(1.7rem, 4.6vw, 3.6rem)/1.25 var(--f-display);
   /* espaçamento fixo: animar o espaçamento mudava a quebra de linha no meio da animação */
   letter-spacing: .12em;
   opacity: 0;
@@ -1355,7 +1413,7 @@ footer .wrap {
   border-bottom: 1px solid var(--line);
   background: none;
   color: var(--muted);
-  font: .72rem var(--f-mono);
+  font: 300 .72rem var(--f-mono);
   letter-spacing: .2em;
   text-transform: uppercase;
   cursor: pointer;

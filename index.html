@@ -7,23 +7,15 @@
 <title>Graziela Romualdo</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..700,100;1,9..144,300..700,100&family=Nunito:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@300;400;500&family=DM+Mono:wght@300;400&display=swap">
 <link rel="stylesheet" href="style.css">
 <!-- avisa o CSS que o JavaScript está ligado, antes de a página aparecer (assim a abertura cobre tudo desde o início) -->
 <script>document.documentElement.classList.add("js");</script>
-<link rel="icon" type="image/svg+xml" href="favicon.svg">
-<link rel="icon" type="image/png" href="favicon.png">
-<link rel="apple-touch-icon" href="favicon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="icon" type="image/png" sizes="512x512" href="favicon.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
 </head>
 <body>
-
-<!-- abertura: as frases aparecem e somem uma de cada vez; depois o site é revelado (script.js) -->
-<div class="splash" id="splash" aria-live="polite">
-  <p class="splash-frase">Boas ideias merecem ir além do papel.</p>
-  <p class="splash-frase">É aqui que elas ganham vida.</p>
-  <p class="splash-frase">Seja <span class="junto">bem-vindo(a).</span></p>
-  <button class="splash-pular" id="splashPular" type="button">pular</button>
-</div>
 
 <header class="nav">
   <div class="wrap">
@@ -47,16 +39,11 @@
 
 <main id="top">
   <section class="hero">
-    <canvas id="scene" aria-hidden="true"></canvas>
     <div class="wrap hero-grid">
       <div>
         <p class="eyebrow">Portfólio · 2026</p>
         <h1>Graziela<br><span class="last">Romualdo.</span></h1>
         <p class="lead">Desenvolvedora <strong>Full-Stack</strong>. Construo produtos web de ponta a ponta, da interface ao banco de dados.</p>
-        <div class="ctas">
-          <a class="btn primary" href="#projetos">Ver projetos</a>
-          <a class="btn" href="#contato">Falar comigo</a>
-        </div>
       </div>
     </div>
   </section>
@@ -132,7 +119,6 @@
   </div>
 </footer>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script src="script.js"></script>
 </body>
 </html>
