@@ -1091,9 +1091,9 @@ footer .wrap {
   --fox-bg: #f27fd0;
   position: relative;
   justify-self: center;
-  width: min(210px, 100%);
+  width: min(300px, 100%);
   aspect-ratio: 1;
-  border-radius: 50%;
+  border-radius: 80%;
   background: radial-gradient(circle at 50% 40%, #f799dc 0%, var(--fox-bg) 62%);
   box-shadow: 0 20px 40px -22px rgba(30, 20, 10, .45);
   overflow: hidden;
@@ -1167,4 +1167,33 @@ footer .wrap {
     align-self: center;
     margin-bottom: 22px; /* mesmo respiro do h1, para centralizar com o nome */
   }
+}
+
+/* mini raposa ao lado do nome no menu */
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.fox-mini {
+  position: relative;
+  width: 40px;
+  aspect-ratio: 1;
+  flex: none;
+  border-radius: 50%;
+  background: radial-gradient(circle at 50% 40%, #f799dc 0%, #f27fd0 62%);
+  box-shadow: inset 0 0 0 2px #f27fd0, inset 0 0 0 3.5px #fff, 0 6px 14px -8px rgba(30, 20, 10, .5);
+  overflow: hidden;
+}
+
+.fox-mini-canvas {
+  position: absolute;
+  inset: 8%;
+}
+
+.fox-mini-canvas canvas {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
 }

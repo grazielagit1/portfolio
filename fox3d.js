@@ -1,10 +1,12 @@
-// Logo Foxify em 3D girando 360° no hero.
+// Logo Foxify em 3D girando 360° (hero e mini no menu).
+// Cada elemento com [data-fox3d] ganha sua raposa. Atributos opcionais:
+//   data-camera="15.5"  distância da câmera (menor = raposa maior)
+//   data-drag="false"   desliga o arrastar (usado no menu, que é um link)
 // A raposa é desenhada com formas vetoriais (coordenadas tiradas da logo original,
 // com o centro da cabeça em x = 0) e extrudada com Three.js.
 import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js";
 
-const host = document.getElementById("fox3d");
-if (host) init(host);
+document.querySelectorAll("[data-fox3d]").forEach(init);
 
 function init(host) {
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -16,7 +18,8 @@ function init(host) {
 
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(32, 1, 0.1, 100);
-  camera.position.set(0, 0, 15.5);
+  camera.position.set(0, 0, parseFloat(host.dataset.camera) || 15.5);
+  const canDrag = host.dataset.drag !== "false";
 
   // luzes: uma principal na frente, uma de recorte atrás e um preenchimento suave
   scene.add(new THREE.HemisphereLight(0xffffff, 0x3a3a3a, 1.9));
@@ -162,6 +165,7 @@ function init(host) {
   let dragging = false, lastX = 0, lastT = 0;
 
   host.addEventListener("pointerdown", (e) => {
+    if (!canDrag) return;
     dragging = true;
     lastX = e.clientX;
     lastT = performance.now();
