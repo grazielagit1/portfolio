@@ -26,7 +26,7 @@ function init(host) {
   const key = new THREE.DirectionalLight(0xffffff, 2.6);
   key.position.set(3, 4, 6);
   scene.add(key);
-  const rim = new THREE.DirectionalLight(0xf27fd0, 1.6);
+  const rim = new THREE.DirectionalLight(0xc9b6ec, 1.6);
   rim.position.set(-4, 2, -5);
   scene.add(rim);
 
