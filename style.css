@@ -1160,3 +1160,102 @@ footer .wrap {
   letter-spacing: .03em;
   padding: 12px 20px;
 }
+
+/* ===== diagrama "da interface ao banco" (hero, à direita) ===== */
+.hero-grid {
+  grid-template-columns: 1fr auto;
+  gap: 40px;
+}
+
+.stack-diagram {
+  --accent: #6D4AB8;
+  --ink: #1C1726;
+  --muted: #5E5870;
+  --surface: #FBF9FE;
+  --chip: #EBE3F6;
+  --line: #CFC3E3;
+  --border: #E2D9F0;
+
+  position: relative;
+  width: 560px;
+  height: 640px;
+  font-family: Jost, system-ui, sans-serif;
+  color: var(--ink);
+  justify-self: end;
+}
+
+/* linhas */
+.sd-line { position: absolute; background: var(--line); }
+.sd-line--main   { left: 169px; top: 136px; width: 2px;  height: 368px; }
+.sd-line--out    { left: 300px; top: 319px; width: 40px; height: 2px; }
+.sd-line--branch { left: 339px; top: 227px; width: 2px;  height: 186px; }
+.sd-line--stub   { left: 339px; width: 41px; height: 2px; }
+
+/* cartões principais */
+.sd-node {
+  position: absolute; left: 40px; width: 260px; height: 96px;
+  box-sizing: border-box; padding: 16px 20px; border-radius: 16px;
+  background: var(--surface); border: 1px solid var(--border);
+  box-shadow: 0 12px 30px rgba(28, 23, 38, .06);
+  display: flex; flex-direction: column; justify-content: center; gap: 8px;
+}
+.sd-node--front { top: 40px; justify-content: space-between; }
+.sd-node--api   { top: 272px; background: var(--ink); color: var(--surface); border: 0;
+                  box-shadow: 0 16px 36px rgba(28, 23, 38, .18); }
+.sd-node--db    { top: 504px; flex-direction: row; align-items: center; gap: 14px; }
+.sd-node--db .sd-title { white-space: nowrap; }
+
+.sd-row   { display: flex; justify-content: space-between; align-items: baseline; }
+.sd-title { font-family: "Cormorant Garamond", Georgia, serif; font-size: 28px; line-height: 1.1; }
+.sd-tag   { font-family: "DM Mono", monospace; font-size: 12px; color: var(--muted); }
+.sd-node--api .sd-tag { color: var(--line); }
+.sd-code  { font-family: "DM Mono", monospace; font-size: 12px; color: #B9A4E8; }
+
+.sd-dots { display: flex; gap: 6px; }
+.sd-dots span { width: 9px; height: 9px; border-radius: 50%; background: var(--border); }
+
+/* integrações */
+.sd-label {
+  position: absolute; left: 380px; top: 166px; margin: 0;
+  font-family: "DM Mono", monospace; font-size: 12px; color: var(--muted);
+}
+.sd-chip {
+  position: absolute; left: 380px; width: 140px; height: 48px;
+  border-radius: 999px; background: var(--chip);
+  display: flex; align-items: center; justify-content: center;
+  font-family: "DM Mono", monospace; font-size: 13px;
+}
+
+/* pontos animados */
+.sd-pulse {
+  position: absolute; left: 164px; top: 136px; width: 12px; height: 12px;
+  border-radius: 50%; background: var(--accent);
+  box-shadow: 0 0 0 6px color-mix(in srgb, var(--accent) 15%, transparent);
+  animation: sd-down 3.2s ease-in-out infinite;
+}
+.sd-pulse--side {
+  left: 300px; top: 314px; box-shadow: none;
+  animation: sd-side 1.6s ease-in-out .8s infinite;
+}
+@keyframes sd-down { 0% {top:136px;opacity:0} 8%,92% {opacity:1} 100% {top:496px;opacity:0} }
+@keyframes sd-side { 0% {left:300px;opacity:0} 15%,85% {opacity:1} 100% {left:372px;opacity:0} }
+@media (prefers-reduced-motion: reduce) { .sd-pulse { animation: none; } }
+
+/* telas menores: o diagrama encolhe proporcionalmente */
+@media (max-width: 1100px) {
+  .stack-diagram { zoom: .8; }
+}
+
+/* tablet em pé e celular: o diagrama vai para baixo do texto */
+@media (max-width: 900px) {
+  .hero-grid { grid-template-columns: 1fr; }
+  .stack-diagram { justify-self: center; zoom: .75; }
+}
+
+@media (max-width: 640px) {
+  .stack-diagram { zoom: .58; }
+}
+
+@media (max-width: 380px) {
+  .stack-diagram { zoom: .5; }
+}
