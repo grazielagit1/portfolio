@@ -36,7 +36,7 @@ const revealIO = revealOff ? null : new IntersectionObserver(entries => {
     target.style.setProperty("--base", `${base}ms`);
     target.classList.add("in");
     revealIO.unobserve(target);
-    base = Math.min(base + 110, 1400);
+    base = Math.min(base + 50, 600);
   });
 }, { rootMargin: "0px 0px -6% 0px" });
 
@@ -45,7 +45,7 @@ function reveal(root = document) {
   root.querySelectorAll(REVEAL).forEach(el => {
     if (el.classList.contains("rv")) return;
     const n = splitWords(el);
-    el.style.setProperty("--step", `${Math.min(70, 900 / Math.max(n, 1))}ms`);
+    el.style.setProperty("--step", `${Math.min(35, 450 / Math.max(n, 1))}ms`);
     el.classList.add("rv");
     revealIO.observe(el);
   });

@@ -217,8 +217,7 @@ header.nav {
 .hero-grid {
   position: relative;
   display: grid;
-  grid-template-columns: 1.15fr .85fr;
-  gap: clamp(40px, 6vw, 80px);
+  grid-template-columns: 1fr;
   align-items: center;
 }
 
@@ -278,8 +277,8 @@ h1 .last {
 
 .rv.in .w {
   opacity: 1;
-  animation: word-in 1.2s cubic-bezier(.22, 1, .36, 1) both;
-  animation-delay: calc(250ms + var(--base, 0ms) + var(--i) * var(--step, 70ms));
+  animation: word-in .55s cubic-bezier(.22, 1, .36, 1) both;
+  animation-delay: calc(80ms + var(--base, 0ms) + var(--i) * var(--step, 35ms));
 }
 
 @keyframes word-in {
