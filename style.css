@@ -1,11 +1,11 @@
 /* Layout: abertura com frases + coluna única (topo, sobre, stack, trajetória, projetos, contato).
    Tema único, escolhido de propósito: fundo creme, letras pretas e subtítulos em cinza. */
 :root {
-  --bg: #f3eee3;
-  /* creme */
-  --bg-2: #f6f1e8;
+  --bg: #ebe3f6;
+  /* lilás pastel */
+  --bg-2: #f1ebf9;
   /* superfícies (cards): só um sopro mais claro que o fundo, sem branco forte */
-  --line: #e3dccf;
+  --line: #dcd1ea;
   /* bordas finas e suaves */
   --soft-shadow: 0 1px 2px rgba(60, 45, 25, .03), 0 14px 34px -24px rgba(60, 45, 25, .14);
   --fg: #151311;
@@ -18,7 +18,7 @@
   /* preenchimentos (botões, filtro ativo): preto, com texto creme por cima */
   --accent-2: #4a463f;
   /* cinza escuro, só em detalhes */
-  --accent-ink: #f3eee3;
+  --accent-ink: #ebe3f6;
   /* texto sobre preenchimento preto */
   --glow: rgba(120, 100, 70, .07);
   --f-display: "Cormorant Garamond", Garamond, Georgia, serif;
@@ -1168,13 +1168,13 @@ footer .wrap {
 
 /* ===== logo Foxify 3D (hero, à direita) ===== */
 .fox-badge {
-  --fox-bg: #c9b6ec; /* lilás pastel */
+  --fox-bg: #f27fd0;
   position: relative;
   justify-self: center;
   width: min(300px, 100%);
   aspect-ratio: 1;
   border-radius: 80%;
-  background: radial-gradient(circle at 50% 40%, #ddd0f5 0%, var(--fox-bg) 62%);
+  background: radial-gradient(circle at 50% 40%, #f799dc 0%, var(--fox-bg) 62%);
   box-shadow: 0 20px 40px -22px rgba(30, 20, 10, .45);
   overflow: hidden;
   container-type: inline-size; /* textos e anel acompanham o tamanho do selo */
